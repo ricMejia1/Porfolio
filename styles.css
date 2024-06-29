@@ -6,10 +6,14 @@ body, h1, p {
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
+}
+
+h1 {
+    font-family: 'Open Sans', sans-serif;
 }
 
 header {
@@ -55,6 +59,13 @@ section {
     padding: 60px 20px;
     text-align: center;
     opacity: 0; /* Initially hidden for animation */
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; /* Optional: adds rounded corners */
+    margin: 20px 0;
 }
 
 footer {
