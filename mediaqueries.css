@@ -1,16 +1,29 @@
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 600px) {
   #profile {
-    height: 83vh;
-    margin-bottom: 6rem;
+    flex-direction: column;
+    height: auto;
   }
-  .about-containers {
-    flex-wrap: wrap;
+
+  .section__pic-container {
+    width: 200px; /* Adjust the width for mobile */
+    height: 200px; /* Adjust the height for mobile */
+    margin: 1rem auto;
   }
-  #contact,
-  #projects {
-    height: fit-content;
+
+  .section__text {
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .section__text__p2 {
+    font-size: 1.25rem;
+  }
+
+  .title {
+    font-size: 2rem;
   }
 }
+
 
 @media screen and (max-width: 1200px) {
   #desktop-nav {
