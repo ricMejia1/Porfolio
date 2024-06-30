@@ -174,8 +174,8 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 30px; /* Adjust the max width */
-  max-height: 30px; /* Adjust the max height */
+  max-width: 3px; /* Adjust the max width */
+  max-height: 3px; /* Adjust the max height */
   margin: auto;
   overflow: hidden; /* Ensure any overflow is hidden */
 }
