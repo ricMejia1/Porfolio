@@ -1,29 +1,16 @@
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1400px) {
   #profile {
-    flex-direction: column;
-    height: auto;
+    height: 83vh;
+    margin-bottom: 6rem;
   }
-
-  .section__pic-container {
-    width: 200px; /* Adjust the width for mobile */
-    height: 200px; /* Adjust the height for mobile */
-    margin: 1rem auto;
+  .about-containers {
+    flex-wrap: wrap;
   }
-
-  .section__text {
-    text-align: center;
-    padding: 1rem;
-  }
-
-  .section__text__p2 {
-    font-size: 1.25rem;
-  }
-
-  .title {
-    font-size: 2rem;
+  #contact,
+  #projects {
+    height: fit-content;
   }
 }
-
 
 @media screen and (max-width: 1200px) {
   #desktop-nav {
@@ -66,9 +53,29 @@
     height: 40vh;
   }
   #profile {
-    height: 83vh;
-    margin-bottom: 0;
+    flex-direction: column;
+    height: auto;
   }
+
+  .section__pic-container {
+    width: 200px; /* Adjust the width for mobile */
+    height: 200px; /* Adjust the height for mobile */
+    margin: 1rem auto;
+  }
+
+  .section__text {
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .section__text__p2 {
+    font-size: 1.25rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
   article {
     font-size: 1rem;
   }
