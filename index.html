@@ -35,23 +35,23 @@
   </header>
 
   <!-- Mobile menu (hidden on desktop) -->
-  <div class="menu-backdrop" id="menuBackdrop" hidden></div>
-  <aside class="menu-panel" id="menuPanel" aria-hidden="true">
-    <div class="menu-header">
-      <strong>Menu</strong>
-      <button class="menu-close" id="menuClose" aria-label="Close menu">✕</button>
-    </div>
-    <nav class="menu-list" aria-label="Mobile">
-      <a href="#projects" data-close>Projects</a>
-      <a href="#skills" data-close>Skills</a>
-      <a href="#experience" data-close>Experience</a>
-      <a href="#contact" data-close>Contact</a>
-    </nav>
-    <div class="menu-actions">
-      <button class="btn" id="themeToggleMobile">☾☀︎ Theme</button>
-      <a class="btn primary" href="./assets/RicardoMejiaResumePorfolio.pdf" target="_blank" rel="noopener">⬇️ Resume</a>
-    </div>
-  </aside>
+<div class="menu-backdrop" id="menuBackdrop" hidden></div>
+<aside class="menu-panel" id="menuPanel" aria-hidden="true">
+  <div class="menu-header">
+    <strong>Menu</strong>
+    <button class="menu-close" id="menuClose" aria-label="Close menu">✕</button>
+  </div>
+
+  <!-- Everything as one list (Contact → Resume → Theme) -->
+  <nav class="menu-list" aria-label="Mobile">
+    <a href="#projects" data-close>Projects</a>
+    <a href="#skills" data-close>Skills</a>
+    <a href="#experience" data-close>Experience</a>
+    <a href="#contact" data-close>Contact</a>
+    <a href="./assets/ResumeRicPBEworkshop.pdf" target="_blank" rel="noopener" data-close>Resume</a>
+    <button type="button" class="menu-theme-btn" id="themeToggleMobile">Theme</button>
+  </nav>
+</aside>
 
   <main class="container">
     <!-- Hero -->

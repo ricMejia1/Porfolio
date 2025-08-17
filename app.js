@@ -152,3 +152,12 @@ $('#jsonld').textContent = JSON.stringify({
   knowsAbout:["STM32","Embedded","IoT","CAD","Robotics"],
   affiliation:{"@type":"CollegeOrUniversity","name":"Texas A&M University"}
 });
+
+// Move Resume under Contact inside the mobile menu
+document.addEventListener("DOMContentLoaded", () => {
+  const contactLink = document.querySelector(".menu-list a[href='#contact']");
+  const resumeLink = document.querySelector(".menu-list a[href='#resume']");
+  if (contactLink && resumeLink) {
+    contactLink.insertAdjacentElement("afterend", resumeLink);
+  }
+});
