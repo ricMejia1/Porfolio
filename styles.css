@@ -61,6 +61,42 @@ nav.links{ display:flex; align-items:center; gap:12px; margin-left:10px }
 .menu-open .menu-panel{ right:0 }
 .no-scroll{ overflow:hidden }
 
+/* Slide-in menu panel */
+.menu-panel{
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: min(86vw, 360px);
+  height: 100dvh;              /* respect mobile dynamic viewport */
+  max-height: 100dvh;
+  overflow-y: auto;            /* allow scrolling */
+  background: var(--card);
+  border-left: 1px solid color-mix(in srgb,var(--text) 12%, transparent);
+  box-shadow: -20px 0 60px rgba(0,0,0,.35);
+  padding: 18px;
+  padding-bottom: calc(18px + env(safe-area-inset-bottom)); /* iOS safe area */
+  z-index: 70;
+  transition: right .25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Keep the action buttons always reachable */
+.menu-actions{
+  position: sticky;            /* sticks to bottom as you scroll */
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--card) 92%, transparent) 60%
+  );
+  padding-top: 10px;
+  margin-top: auto;            /* push actions toward the bottom area */
+  display: grid;
+  gap: 10px;
+}
+
 /* Layout pieces */
 .grid{ display:grid; gap:20px }
 .grid.cols-3{ grid-template-columns:repeat(3,minmax(0,1fr)) }
@@ -101,3 +137,5 @@ dialog::backdrop{ background:rgba(0,0,0,.55) }
 
 footer{ padding:40px 0; color:var(--muted) }
 @media print{ header,.no-print{display:none!important} body{background:#fff;color:#000} .card{border:1px solid #000} }
+
+
