@@ -1,0 +1,103 @@
+:root{ --bg:#0b0c0f; --card:#12141a; --muted:#98a2b3; --text:#e6eaf2; --brand:#ef4444; --brand-2:#f59e0b; }
+:root.light{ --bg:#f7f8fb; --card:#ffffff; --muted:#475569; --text:#0f172a; --brand:#dc2626; --brand-2:#ea580c; }
+*{ box-sizing:border-box }
+html,body{ height:100% }
+body{
+  margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial,sans-serif;
+  background: var(--bg); color:var(--text); line-height:1.6; overflow-x:hidden;
+  background-image:
+    radial-gradient(1200px 600px at 110% -10%, rgba(239,68,68,.18), transparent 60%),
+    radial-gradient(1200px 600px at -10% 110%, rgba(239,68,68,.14), transparent 60%);
+}
+
+/* Particles canvas behind everything */
+#bg-net{ position:fixed; inset:0; z-index:-1; width:100%; height:100%;
+  background: radial-gradient(800px 500px at 50% -20%, rgba(239,68,68,.10), transparent 70%); }
+@media (prefers-reduced-motion: reduce){ #bg-net{ display:none; } }
+
+img{ max-width:100%; height:auto; display:block }
+a{ color:inherit; text-decoration:none }
+.container{ max-width:1100px; margin:0 auto; padding:28px }
+
+header{ position:sticky; top:0; backdrop-filter:saturate(120%) blur(10px);
+  background:color-mix(in srgb,var(--bg) 70%, transparent);
+  border-bottom:1px solid color-mix(in srgb,var(--text) 12%, transparent); z-index:30 }
+.topbar{ display:flex; align-items:center; gap:14px }
+.brand{ font-weight:700 }
+
+/* Buttons */
+.btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px;
+  border:1px solid color-mix(in srgb,var(--text) 14%, transparent);
+  background:linear-gradient(180deg, color-mix(in srgb,var(--card) 90%, transparent), color-mix(in srgb,var(--card) 70%, transparent));
+  cursor:pointer; transition:.2s ease; user-select:none }
+.btn:hover{ transform:translateY(-1px); box-shadow:0 10px 30px rgba(0,0,0,.25) }
+.btn.primary{ border-color:color-mix(in srgb,var(--brand) 60%, transparent);
+  background:linear-gradient(180deg, color-mix(in srgb,var(--brand) 22%, var(--card)), color-mix(in srgb,var(--brand) 8%, var(--card))); }
+
+/* Desktop nav row */
+nav.links{ display:flex; align-items:center; gap:12px; margin-left:10px }
+.spacer{ flex:1 }
+
+/* Mobile: hide links; show hamburger */
+.menu-toggle{ display:none; border:none; background:transparent; font-size:26px; padding:8px; line-height:1; cursor:pointer }
+@media (max-width:860px){
+  nav.links{ display:none }
+  .menu-toggle{ display:block; margin-left:auto }
+}
+
+/* Slide-in menu panel */
+.menu-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.35); backdrop-filter:blur(2px);
+  opacity:0; pointer-events:none; transition:.2s ease; z-index:60; }
+.menu-panel{ position:fixed; top:0; right:-100%; height:100vh; width:min(86vw,360px);
+  background:var(--card); border-left:1px solid color-mix(in srgb,var(--text) 12%, transparent);
+  box-shadow: -20px 0 60px rgba(0,0,0,.35); padding:18px; z-index:70; transition:right .25s ease; display:flex; flex-direction:column; gap:8px }
+.menu-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px }
+.menu-close{ background:transparent; border:none; font-size:24px; cursor:pointer }
+.menu-list a{ display:block; padding:14px 10px; border-radius:10px; font-size:18px }
+.menu-list a:hover{ background:color-mix(in srgb,var(--text) 10%, transparent) }
+.menu-actions{ margin-top:auto; display:grid; gap:10px; }
+
+.menu-open .menu-backdrop{ opacity:1; pointer-events:auto }
+.menu-open .menu-panel{ right:0 }
+.no-scroll{ overflow:hidden }
+
+/* Layout pieces */
+.grid{ display:grid; gap:20px }
+.grid.cols-3{ grid-template-columns:repeat(3,minmax(0,1fr)) }
+.grid.cols-2{ grid-template-columns:repeat(2,minmax(0,1fr)) }
+@media (max-width:900px){ .grid.cols-3{ grid-template-columns:1fr 1fr } }
+@media (max-width:700px){ .grid.cols-3,.grid.cols-2{ grid-template-columns:1fr } }
+
+.hero{ display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center; padding:38px 0 }
+@media (max-width:900px){ .hero{ grid-template-columns:1fr } }
+
+.card{ background:linear-gradient(180deg, color-mix(in srgb,var(--card) 86%, transparent), color-mix(in srgb,var(--card) 98%, transparent));
+  border:1px solid color-mix(in srgb,var(--text) 10%, transparent); border-radius:18px; padding:22px }
+.badge{ display:inline-flex; align-items:center; gap:8px; border:1px solid color-mix(in srgb,var(--text) 14%, transparent); padding:8px 12px; border-radius:999px; background:color-mix(in srgb,var(--card) 92%, transparent) }
+.kbd{ font-family:ui-monospace,SFMono-Regular,Menlo,monospace; padding:2px 6px; border-radius:6px; border:1px solid color-mix(in srgb,var(--text) 16%, transparent); background:color-mix(in srgb,var(--card) 90%, transparent) }
+.muted{ color:var(--muted) }
+.grad{ background:linear-gradient(90deg,var(--brand),var(--brand-2)); -webkit-background-clip:text; background-clip:text; color:transparent }
+h1{ font-size:clamp(28px,3.6vw,50px); line-height:1.15; margin:0 }
+h2{ font-size:clamp(22px,2.2vw,30px); margin:0 0 6px }
+
+.tag{ display:inline-block; margin:4px 6px 0 0; padding:6px 10px; border-radius:999px; border:1px solid color-mix(in srgb,var(--text) 14%, transparent); font-size:12px; opacity:.9 }
+.thumb{ width:100%; aspect-ratio:16/9; max-height:140px; object-fit:cover; border-radius:12px;
+  background:color-mix(in srgb,var(--card) 96%, transparent); border:1px solid color-mix(in srgb,var(--text) 10%, transparent) }
+
+.timeline{ position:relative }
+.timeline::before{ content:""; position:absolute; left:12px; top:0; bottom:0; width:2px; background:color-mix(in srgb,var(--text) 14%, transparent) }
+.tl-item{ position:relative; padding-left:40px; margin:14px 0 }
+.tl-item::before{ content:""; position:absolute; left:6px; top:10px; width:12px; height:12px; border-radius:50%; background:var(--brand) }
+.tl-title{ display:flex; flex-wrap:wrap; gap:.5rem; align-items:baseline }
+.tl-role{ font-weight:600 }
+.tl-org{ color:var(--muted) }
+
+/* Dialogs */
+dialog{ border:none; border-radius:16px; padding:0; max-width:600px; width:92vw; color:inherit; background:var(--card); box-shadow:0 30px 80px rgba(0,0,0,.35) }
+dialog::backdrop{ background:rgba(0,0,0,.55) }
+.modal-head{ display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid color-mix(in srgb,var(--text) 10%, transparent) }
+.modal-body{ padding:14px 16px }
+#qsearch{ width:100%; padding:.6rem .8rem; border-radius:12px; border:1px solid color-mix(in srgb,var(--text) 12%, transparent); background:transparent; color:inherit }
+
+footer{ padding:40px 0; color:var(--muted) }
+@media print{ header,.no-print{display:none!important} body{background:#fff;color:#000} .card{border:1px solid #000} }

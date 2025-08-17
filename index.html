@@ -5,121 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ricardo Mejia — Portfolio</title>
   <meta name="description" content="Portfolio of Ricardo Mejia — Texas A&M mechatronics/manufacturing engineering student. Projects, skills, experience, and contact." />
-  <meta property="og:title" content="Ricardo Mejia — Portfolio" />
-  <meta property="og:description" content="Engineering student (Texas A&M) — projects across robotics, embedded, and IoT." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'><rect fill='%230a0a0a' width='100%' height='100%'/><text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-size='64' font-family='Inter,system-ui,sans-serif'>Ricardo — Portfolio</text></svg>" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27><rect width=%2764%27 height=%2764%27 rx=%2712%27 fill=%27%230a0a0a%27/><text x=%2732%27 y=%2739%27 font-size=%2730%27 text-anchor=%27middle%27 fill=%27%23fff%27 font-family=%27Inter,system-ui,sans-serif%27>R</text></svg>">
-
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet">
 
-  <style>
-    :root{ --bg:#0b0c0f; --card:#12141a; --muted:#98a2b3; --text:#e6eaf2; --brand:#ef4444; --brand-2:#f59e0b; }
-    :root.light{ --bg:#f7f8fb; --card:#ffffff; --muted:#475569; --text:#0f172a; --brand:#dc2626; --brand-2:#ea580c; }
-    *{ box-sizing:border-box }
-    html,body{ height:100% }
-    body{
-      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial,sans-serif;
-      background: var(--bg); color:var(--text); line-height:1.6; overflow-x:hidden;
-      background-image:
-        radial-gradient(1200px 600px at 110% -10%, rgba(239,68,68,.18), transparent 60%),
-        radial-gradient(1200px 600px at -10% 110%, rgba(239,68,68,.14), transparent 60%);
-    }
-
-    /* Particles canvas behind everything */
-    #bg-net{
-      position:fixed; inset:0; z-index:-1; width:100%; height:100%;
-      background: radial-gradient(800px 500px at 50% -20%, rgba(239,68,68,.10), transparent 70%);
-    }
-    @media (prefers-reduced-motion: reduce){ #bg-net{ display:none; } }
-
-    img{ max-width:100%; height:auto; display:block }
-    a{ color:inherit; text-decoration:none }
-    .container{ max-width:1100px; margin:0 auto; padding:28px }
-
-    header{ position:sticky; top:0; backdrop-filter:saturate(120%) blur(10px); background:color-mix(in srgb,var(--bg) 70%, transparent); border-bottom:1px solid color-mix(in srgb,var(--text) 12%, transparent); z-index:30 }
-    nav{ display:flex; align-items:center; gap:16px }
-    nav .spacer{ flex:1 }
-
-    .btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px;
-      border:1px solid color-mix(in srgb,var(--text) 14%, transparent);
-      background:linear-gradient(180deg, color-mix(in srgb,var(--card) 90%, transparent), color-mix(in srgb,var(--card) 70%, transparent));
-      cursor:pointer; transition:.2s ease; user-select:none }
-    .btn:hover{ transform:translateY(-1px); box-shadow:0 10px 30px rgba(0,0,0,.25) }
-    .btn.primary{ border-color:color-mix(in srgb,var(--brand) 60%, transparent);
-      background:linear-gradient(180deg, color-mix(in srgb,var(--brand) 22%, var(--card)), color-mix(in srgb,var(--brand) 8%, var(--card))); }
-
-    .grid{ display:grid; gap:20px }
-    .grid.cols-3{ grid-template-columns:repeat(3,minmax(0,1fr)) }
-    .grid.cols-2{ grid-template-columns:repeat(2,minmax(0,1fr)) }
-    @media (max-width:900px){ .grid.cols-3{ grid-template-columns:1fr 1fr } }
-    @media (max-width:700px){ .grid.cols-3,.grid.cols-2{ grid-template-columns:1fr } }
-
-    .hero{ display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center; padding:38px 0 }
-    @media (max-width:900px){ .hero{ grid-template-columns:1fr } }
-
-    .card{ background:linear-gradient(180deg, color-mix(in srgb,var(--card) 86%, transparent), color-mix(in srgb,var(--card) 98%, transparent));
-      border:1px solid color-mix(in srgb,var(--text) 10%, transparent); border-radius:18px; padding:22px }
-    .badge{ display:inline-flex; align-items:center; gap:8px; border:1px solid color-mix(in srgb,var(--text) 14%, transparent); padding:8px 12px; border-radius:999px; background:color-mix(in srgb,var(--card) 92%, transparent) }
-    .kbd{ font-family:ui-monospace,SFMono-Regular,Menlo,monospace; padding:2px 6px; border-radius:6px; border:1px solid color-mix(in srgb,var(--text) 16%, transparent); background:color-mix(in srgb,var(--card) 90%, transparent) }
-    .muted{ color:var(--muted) }
-    h1{ font-size:clamp(28px,3.6vw,50px); line-height:1.15; margin:0 }
-    h2{ font-size:clamp(22px,2.2vw,30px); margin:0 0 6px }
-
-    .tag{ display:inline-block; margin:4px 6px 0 0; padding:6px 10px; border-radius:999px; border:1px solid color-mix(in srgb,var(--text) 14%, transparent); font-size:12px; opacity:.9 }
-
-    /* Thumbnails */
-    .thumb{ width:100%; aspect-ratio:16/9; max-height:140px; object-fit:cover; border-radius:12px;
-      background:color-mix(in srgb,var(--card) 96%, transparent); border:1px solid color-mix(in srgb,var(--text) 10%, transparent) }
-
-    /* Timeline */
-    .timeline{ position:relative }
-    .timeline::before{ content:""; position:absolute; left:12px; top:0; bottom:0; width:2px; background:color-mix(in srgb,var(--text) 14%, transparent) }
-    .tl-item{ position:relative; padding-left:40px; margin:14px 0 }
-    .tl-item::before{ content:""; position:absolute; left:6px; top:10px; width:12px; height:12px; border-radius:50%; background:var(--brand) }
-    .tl-title{ display:flex; flex-wrap:wrap; gap:.5rem; align-items:baseline }
-    .tl-role{ font-weight:600 }
-    .tl-org{ color:var(--muted) }
-
-    /* Dialogs */
-    dialog{ border:none; border-radius:16px; padding:0; max-width:600px; width:92vw; color:inherit; background:var(--card); box-shadow:0 30px 80px rgba(0,0,0,.35) }
-    dialog::backdrop{ background:rgba(0,0,0,.55) }
-    .modal-head{ display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid color-mix(in srgb,var(--text) 10%, transparent) }
-    .modal-body{ padding:14px 16px }
-    #qsearch{ width:100%; padding:.6rem .8rem; border-radius:12px; border:1px solid color-mix(in srgb,var(--text) 12%, transparent); background:transparent; color:inherit }
-
-    footer{ padding:40px 0; color:var(--muted) }
-
-    @media print{ header,.no-print{display:none!important} body{background:#fff;color:#000} .card{border:1px solid #000} }
-  </style>
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <!-- particles background -->
   <canvas id="bg-net" aria-hidden="true"></canvas>
 
   <header>
-    <div class="container" style="display:flex;align-items:center;gap:14px">
-      <strong>RM</strong>
-      <nav>
+    <div class="container topbar">
+      <strong class="brand">RM</strong>
+
+      <!-- Desktop links -->
+      <nav class="links" aria-label="Primary">
         <a class="btn" href="#projects">Projects</a>
         <a class="btn" href="#skills">Skills</a>
         <a class="btn" href="#experience">Experience</a>
         <a class="btn" href="#contact">Contact</a>
         <span class="spacer"></span>
         <button class="btn" id="themeToggle">☾☀︎ Theme</button>
-        <a class="btn primary" href="./assets/ResumeRicPBEworkshop.pdf" target="_blank" rel="noopener">⬇️ Resume</a>
+        <a class="btn primary" href="./assets/RicardoMejiaResumePorfolio.pdf" target="_blank" rel="noopener">⬇️ Resume</a>
       </nav>
+
+      <!-- Mobile hamburger -->
+      <button class="menu-toggle" id="menuOpen" aria-label="Open menu" aria-controls="menuPanel" aria-expanded="false">☰</button>
     </div>
   </header>
+
+  <!-- Mobile menu (hidden on desktop) -->
+  <div class="menu-backdrop" id="menuBackdrop" hidden></div>
+  <aside class="menu-panel" id="menuPanel" aria-hidden="true">
+    <div class="menu-header">
+      <strong>Menu</strong>
+      <button class="menu-close" id="menuClose" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="menu-list" aria-label="Mobile">
+      <a href="#projects" data-close>Projects</a>
+      <a href="#skills" data-close>Skills</a>
+      <a href="#experience" data-close>Experience</a>
+      <a href="#contact" data-close>Contact</a>
+    </nav>
+    <div class="menu-actions">
+      <button class="btn" id="themeToggleMobile">🌗 Theme</button>
+      <a class="btn primary" href="./assets/ResumeRicPBEworkshop.pdf" target="_blank" rel="noopener">⬇️ Resume</a>
+    </div>
+  </aside>
 
   <main class="container">
     <!-- Hero -->
     <section class="hero" aria-label="Intro">
       <div>
         <div class="badge">Texas A&M • <span class="mono" id="statusClock">UTC-00:00</span></div>
-        <h1>Hi, I’m <span style="background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent">Ricardo Mejia</span> — Mechatronics / Multidisciplinary Engineering Student at Texas A&M University.</h1>
-        <p class="muted" style="margin:10px 0 16px">Robotics, embedded systems, and IoT projects. I love applying theory to practical builds and clean UI for control dashboards.</p>
+        <h1>Hi, I’m <span class="grad">Ricardo Mejia</span> — Mechatronics / Multidisciplinary Engineering Student at Texas A&M University.</h1>
+        <p class="muted" style="margin:10px 0 16px">Robotics, embedded systems (STM32), and IoT projects. I love applying theory to practical builds and clean UI for control dashboards.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap" class="no-print">
           <a class="btn primary" href="#projects">🚀 View Projects</a>
           <a class="btn" href="#contact">📨 Contact</a>
@@ -130,7 +70,7 @@
         <div class="grid cols-2">
           <div>
             <div class="muted">Focus</div>
-            <div class="tag">Embedded</div>
+            <div class="tag">Embedded (STM32)</div>
             <div class="tag">Raspberry Pi & IoT</div>
             <div class="tag">CAD & Prototyping</div>
           </div>
@@ -164,18 +104,9 @@
     <section id="skills" style="margin-top:30px">
       <h2>Skills</h2>
       <div class="grid cols-3">
-        <div class="card">
-          <h3>Programming & Scripting</h3>
-          <p class="muted">Python • C / C++ • JavaScript • MATLAB • Simulink • HTML / CSS</p>
-        </div>
-        <div class="card">
-          <h3>Embedded & Hardware</h3>
-          <p class="muted">STM32 • UART • PWM • Sensor Integration • Raspberry Pi & IoT</p>
-        </div>
-        <div class="card">
-          <h3>Design & Tools</h3>
-          <p class="muted">Autodesk/Onshape/SolidWorks CAD • 3D Printing • Laser Cutting • Multisim • Git • Excel</p>
-        </div>
+        <div class="card"><h3>Programming & Scripting</h3><p class="muted">Python • C / C++ • JavaScript • MATLAB</p></div>
+        <div class="card"><h3>Embedded & Hardware</h3><p class="muted">STM32 • UART • PWM • Sensor Integration • Raspberry Pi & IoT</p></div>
+        <div class="card"><h3>Design & Tools</h3><p class="muted">Autodesk/Onshape CAD • 3D Printing • Laser Cutting • Multisim • Git • Excel</p></div>
       </div>
     </section>
 
@@ -183,22 +114,10 @@
     <section id="experience" style="margin-top:30px">
       <h2>Experience</h2>
       <div class="card timeline">
-        <div class="tl-item">
-          <div class="tl-title"><span class="tl-role">Mechatronics Engineering Student</span> • <span class="tl-org">Texas A&M University</span></div>
-          <div class="muted">May 2022 – Present • College Station, Texas • On-site</div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-title"><span class="tl-role">Manufacturing Engineer</span> • <span class="tl-org">Howmet Aerospace — Internship</span></div>
-          <div class="muted">May 2025 – Aug 2025 · 4 mos • United States & Mexico • On-site</div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-title"><span class="tl-role">Leasing Agent (Community Assistant)</span> • <span class="tl-org">Asset Living — Part-time</span></div>
-          <div class="muted">Nov 2023 – Apr 2025 · 1 yr 6 mos • College Station, Texas • On-site</div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-title"><span class="tl-role">Automotive Sales</span> • <span class="tl-org">Cecil Atkission Ford Lincoln — Full-time</span></div>
-          <div class="muted">May 2022 – Aug 2022 · 4 mos • Del Rio, Texas • On-site</div>
-        </div>
+        <div class="tl-item"><div class="tl-title"><span class="tl-role">Mechatronics Engineering Student</span> • <span class="tl-org">Texas A&M University</span></div><div class="muted">May 2022 – Present • College Station, Texas</div></div>
+        <div class="tl-item"><div class="tl-title"><span class="tl-role">Manufacturing Engineer</span> • <span class="tl-org">Howmet Aerospace — Internship</span></div><div class="muted">May 2025 – Aug 2025 · 4 mos • United States & Mexico • On-site</div></div>
+        <div class="tl-item"><div class="tl-title"><span class="tl-role">Leasing Agent (Community Assistant)</span> • <span class="tl-org">Asset Living — Part-time</span></div><div class="muted">Nov 2023 – Apr 2025 · 1 yr 6 mos • College Station, Texas • On-site</div></div>
+        <div class="tl-item"><div class="tl-title"><span class="tl-role">Automotive Sales</span> • <span class="tl-org">Cecil Atkission Ford Lincoln — Full-time</span></div><div class="muted">May 2022 – Aug 2022 · 4 mos • Del Rio, Texas • On-site</div></div>
       </div>
     </section>
 
@@ -206,16 +125,12 @@
     <section id="contact" style="margin-top:30px">
       <h2>Contact</h2>
       <div class="grid cols-2">
-        <form class="card" id="contactForm" novalidate>
+        <form class="card" id="contactForm">
           <label>Name<br><input required name="name" class="btn" style="width:100%" placeholder="Your name"></label><br>
           <label>Email<br><input required type="email" name="email" class="btn" style="width:100%" placeholder="you@email.com"></label><br>
-          <label>Message<br><textarea required name="message" class="btn" style="width:100%;height:120px" placeholder="How can I help?"></textarea></label>
-          <!-- Honeypot to catch bots -->
-          <input type="text" name="_gotcha" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" tabindex="-1" aria-hidden="true">
-          <br>
-          <button class="btn primary" type="submit" id="contactSubmit">Send</button>
-          <small class="muted">Sends via Formspree. If it fails, use the email button.</small>
-          <div id="formStatus" role="status" aria-live="polite" class="muted" style="margin-top:8px"></div>
+          <label>Message<br><textarea required name="message" class="btn" style="width:100%;height:120px" placeholder="How can I help?"></textarea></label><br>
+          <button class="btn primary" type="submit">Send</button>
+          <small class="muted">No backend needed — opens your mail app with a prefilled message.</small>
         </form>
         <div class="card">
           <h3>Elsewhere</h3>
@@ -223,23 +138,23 @@
           <div>
             <a class="btn" href="https://github.com/ricMejia1" target="_blank" rel="noreferrer">GitHub</a>
             <a class="btn" href="https://www.linkedin.com/in/ricardo-mejia-a64929251/" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a class="btn" href="mailto:rickmejia210@gmail.com">Email me directly</a>
           </div>
         </div>
       </div>
     </section>
 
     <footer>
-      <div class="container" style="text-align:center">© <span id="year"></span> Ricardo Mejia — All Rights Reserved.. <span class="no-print">· Press <span class="kbd">?</span> for help</span></div>
+      <div class="container" style="text-align:center">© <span id="year"></span> Ricardo Mejia — All Rights Reserved <span class="no-print">· Press <span class="kbd">?</span> for help</span></div>
     </footer>
   </main>
 
+  <!-- Project modal -->
   <dialog id="projectModal" aria-label="Project details">
     <div class="modal-head"><strong id="modalTitle">Project</strong><button class="btn" id="modalClose" aria-label="Close">✕</button></div>
     <div class="modal-body" id="modalBody"></div>
   </dialog>
 
-  <!-- Quick-Nav Dialog -->
+  <!-- Quick-Nav dialog -->
   <dialog id="quickNav" aria-label="Quick navigation">
     <div class="modal-head"><strong>Go to…</strong><button class="btn" id="qclose">✕</button></div>
     <div class="modal-body">
@@ -253,9 +168,12 @@
     </div>
   </dialog>
 
-  <!-- Help Dialog -->
+  <!-- Help dialog -->
   <dialog id="helpModal" aria-label="Keyboard help">
-    <div class="modal-head"><strong>Keyboard Shortcuts</strong><button class="btn" id="helpClose">✕</button></div>
+    <div class="modal-head">
+      <strong>Keyboard Shortcuts</strong>
+      <button class="btn" id="helpClose" aria-label="Close">✕</button>
+    </div>
     <div class="modal-body">
       <ul>
         <li><span class="kbd">G</span> or <span class="kbd">/</span> — Open quick-nav</li>
@@ -269,199 +187,9 @@
   <!-- JSON-LD for recruiters/ATS -->
   <script type="application/ld+json" id="jsonld"></script>
 
-  <script>
-  // ------- Utilities -------
-  const $  = (sel, root=document) => root.querySelector(sel);
-  const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
-  const state = {
-    theme: localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'),
-    projects: [
-      { id:'frc4063', title:'Team 4063 FRC Robot', badges:['robotics','embedded'], summary:'Competition robot design & programming for FRC 4063.', img:'./assets/project-1.png.JPG', links:{code:'https://github.com/ricMejia1', live:'https://youtu.be/uuoONiXpf4c?si=wNI9PEBVdEZ8wm8m'}, details:`<p><strong>Focus:</strong> drivetrain, controls, wiring, driver practice.</p><ul><li>Sensor integration & autonomous routines.</li><li>Match strategy and pit operations.</li></ul>` },
-      { id:'linetracker', title:'Line Tracking Robot', badges:['robotics','embedded'], summary:'Sensor-guided line follower with control tuning.', img:'./assets/project-2.png.JPG', links:{code:'https://github.com/ricMejia1/LineTrackingRobot', live:'https://github.com/ricMejia1'}, details:`<p><strong>Stack:</strong> STM32, IR sensors, PID-style tuning.</p><ul><li>Reliable line detection and cornering.</li></ul>` },
-      { id:'expandlet', title:'Expandlet (CAD)', badges:['cad'], summary:'Expandable wristlet/organizer designed in Onshape.', img:'./assets/project-3.png.jpg', links:{code:'https://github.com/ricMejia1/expandlet', live:'https://cad.onshape.com/documents/25098a4e49e090ec0328f6b9/w/deb332f122e549273e05fcb3/e/46866bcea86862d21a10f647?renderMode=0&uiState=6680e86c6f7b3b4c17906bec'}, details:`<p><strong>Tools:</strong> Onshape CAD. Parametric parts and hinges.</p>` },
-      { id:'smartglow', title:'SmartGlow IoT Light System', badges:['iot','embedded'], summary:'Door/motion sensors drive a servo light switch with web UI.', img:'./assets/project-4.png', links:{code:'https://github.com/ricMejia1/SmartGlow-w-IoT.git', live:'https://drive.google.com/drive/folders/1qkIUoG9tqhSB6-Iv2N89J7lXyul8X8fk?usp=drive_link'}, details:`<p><strong>Stack:</strong> STM32 HAL, Raspberry Pi gateway, Flask/JS dashboard.</p><ul><li>OTA config and metrics logging.</li></ul>` },
-      { id:'capacitorcar', title:'Capacitor-Powered Car Model', badges:['embedded'], summary:'Energy storage demo car; analysis & testing.', img:'./assets/project-5.png', links:{code:'https://drive.google.com/drive/folders/19SNVW9SbtQgfNyMUM3OWf6Z7b2OE8k4k?usp=drive_link', live:'https://youtu.be/_35I5piISPE?si=t393JVbpvvCSy-3K'}, details:`<p><strong>Focus:</strong> discharge profiles & gearing.</p>` },
-      { id:'k2639', title:'K2639 Liquid Controller Analysis', badges:['embedded'], summary:'Reverse-engineering & control behavior study.', img:'./assets/project-6.png', links:{code:'https://drive.google.com/drive/folders/1Jzd1oSr262niJ4GPv5OLErfCrSrziRyg?usp=drive_link', live:'#'}, details:`<p>Captured response curves and threshold behavior.</p>` },
-    ]
-  };
-
-  // Apply theme from saved state
-  if(state.theme==='light') document.documentElement.classList.add('light');
-
-  // Clock (UTC)
-  const clk = () => $('#statusClock').textContent = new Date().toUTCString().replace(/ GMT.*/, ' UTC');
-  clk(); setInterval(clk, 1000);
-
-  // Projects render
-  const renderProjects = (filter='all') => {
-    const root = $('#projectGrid');
-    root.innerHTML='';
-    const list = state.projects.filter(p => filter==='all' || p.badges.includes(filter));
-    for(const p of list){
-      const card = document.createElement('article');
-      card.className='card';
-      const safeImg = p.img || '';
-      const onerr = `this.onerror=null; this.src='data:image/svg+xml,${encodeURIComponent("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 225\"><rect width=\"100%\" height=\"100%\" fill=\"#12141a\"/><text x=\"50%\" y=\"52%\" dominant-baseline=\"middle\" text-anchor=\"middle\" fill=\"#999\" font-family=\"Inter\" font-size=\"16\">Image not found</text></svg>")}'`;
-      card.innerHTML = `
-        <img loading="lazy" src="${safeImg}" alt="${p.title} cover" class="thumb" onerror="${onerr}">
-        <h3 style="margin-top:10px">${p.title}</h3>
-        <p class="muted">${p.summary}</p>
-        <div>${p.badges.map(b=>`<span class='tag'>${b}</span>`).join('')}</div>
-        <div style="display:flex;gap:10px;margin-top:10px" class="no-print">
-          <a class="btn" href="${p.links.live}" target="_blank" rel="noreferrer">🔗 Live</a>
-          <a class="btn" href="${p.links.code}" target="_blank" rel="noreferrer">💻 Code</a>
-          <button class="btn primary" data-open="${p.id}">Details</button>
-        </div>`;
-      root.appendChild(card);
-    }
-    // Details modal hooks
-    $$('[data-open]').forEach(btn=>btn.addEventListener('click', e=>{
-      const id = e.currentTarget.getAttribute('data-open');
-      const proj = state.projects.find(p=>p.id===id);
-      $('#modalTitle').textContent = proj.title;
-      $('#modalBody').innerHTML = proj.details;
-      $('#projectModal').showModal();
-    }))
-  }
-  renderProjects();
-  $$('[data-filter]').forEach(b=>b.addEventListener('click',()=>renderProjects(b.dataset.filter)));
-  $('#modalClose')?.addEventListener('click',()=>$('#projectModal').close());
-
-  // Contact (Formspree with mailto fallback)
-  $('#contactForm').addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const name = fd.get('name')?.toString().trim();
-    const email = fd.get('email')?.toString().trim();
-    const msg = fd.get('message')?.toString().trim();
-    const honeypot = fd.get('_gotcha');
-
-    const status = $('#formStatus');
-    const btn = $('#contactSubmit');
-    status.textContent = '';
-
-    if(!name || !email || !msg){ status.textContent = 'Please fill out all fields.'; return; }
-    if(honeypot){ status.textContent = 'Spam detected.'; return; }
-
-    const FORMSPREE_ID = 'meoznrnz';
-    const endpoint = `https://formspree.io/f/${FORMSPREE_ID}`;
-
-    try{
-      btn.disabled = true; btn.textContent = 'Sending…';
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Accept':'application/json', 'Content-Type':'application/json' },
-        body: JSON.stringify({ name, email, message: msg })
-      });
-
-      if(res.ok){
-        status.textContent = 'Thanks! Your message was sent.';
-        e.currentTarget.reset();
-      } else {
-        const data = await res.json().catch(()=>({}));
-        const err = (data?.errors && data.errors[0]?.message) || 'Submission failed. Try again or email me directly.';
-        status.textContent = err;
-      }
-    } catch {
-      const subject = encodeURIComponent(`Portfolio Contact — ${name}`);
-      const body = encodeURIComponent(`From: ${name} <${email}>
-
-${msg}`);
-      location.href = `mailto:rickmejia210@gmail.com?subject=${subject}&body=${body}`;
-    } finally {
-      btn.disabled = false; btn.textContent = 'Send';
-    }
-  });
-
-  // Theme toggle (button + keyboard)
-  const toggleTheme = ()=>{
-    const root = document.documentElement;
-    const light = root.classList.toggle('light');
-    state.theme = light ? 'light':'dark';
-    localStorage.setItem('theme', state.theme);
-  };
-  $('#themeToggle').addEventListener('click', toggleTheme);
-
-  // Quick-Nav helpers
-  function openQuickNav(){ const dlg = $('#quickNav'); dlg.showModal(); const input = $('#qsearch'); input.value=''; input.focus(); filterNav(''); }
-  function filterNav(q){ q=q.toLowerCase(); $$('#qresults li').forEach(li=>{ const t=li.textContent.trim().toLowerCase(); li.style.display = t.includes(q)?'':'none'; }); }
-  $('#qclose').addEventListener('click', ()=>$('#quickNav').close());
-  $('#qsearch').addEventListener('input', e=>filterNav(e.target.value));
-  $$('#qresults a').forEach(a=>a.addEventListener('click', ()=>$('#quickNav').close()));
-  $('#helpClose').addEventListener('click', ()=>$('#helpModal').close());
-
-  // Keyboard shortcuts (robust & input-safe)
-  document.addEventListener('keydown', (e)=>{
-    const tag = (e.target.tagName||'').toLowerCase();
-    const typing = tag==='input' || tag==='textarea' || e.target.isContentEditable;
-    const k = e.key;
-
-    if (k==='?' || (e.shiftKey && k=='/')) { e.preventDefault(); $('#helpModal').showModal(); return; }
-    if (k==='Escape') { $('#helpModal').close(); $('#quickNav').close(); return; }
-    if (!typing && (k.toLowerCase()==='g' || k=='/')) { e.preventDefault(); openQuickNav(); return; }
-    if (!typing && k.toLowerCase()==='t') { toggleTheme(); return; }
-  });
-
-  // Year
-  $('#year').textContent = new Date().getFullYear();
-
-  // JSON-LD
-  $('#jsonld').textContent = JSON.stringify({
-    "@context":"https://schema.org",
-    "@type":"Person",
-    name:"Ricardo Mejia",
-    jobTitle:"Engineering Student",
-    url: location.href,
-    sameAs:["https://github.com/ricMejia1","https://www.linkedin.com/in/ricardo-mejia-a64929251/"],
-    knowsAbout:["STM32","Embedded","IoT","CAD","Robotics"],
-    affiliation:{"@type":"CollegeOrUniversity","name":"Texas A&M University"}
-  });
-
-  // ------- Red Particles Background (no libs) -------
-  (function(){
-    const canvas = document.getElementById('bg-net');
-    const ctx = canvas.getContext('2d');
-    let DPR = Math.max(1, devicePixelRatio || 1);
-    let w=0,h=0, nodes=[], raf, mouse={x:-9999,y:-9999};
-    const N_BASE = 70, SPEED = 0.25, LINK_DIST = 120, MOUSE_PULL = 70; const RED = 'rgba(239,68,68,';
-    const rand=(a,b)=>a + Math.random()*(b-a);
-
-    function resize(){
-      if(!canvas) return;
-      w = canvas.width = innerWidth * DPR;
-      h = canvas.height = innerHeight * DPR;
-      nodes = [];
-      const count = Math.round(N_BASE * Math.sqrt((innerWidth*innerHeight)/(1440*900)));
-      for(let i=0;i<count;i++) nodes.push({ x:rand(0,w), y:rand(0,h), vx:rand(-SPEED,SPEED)*DPR, vy:rand(-SPEED,SPEED)*DPR, r:rand(1.5,3.2)*DPR });
-    }
-
-    function step(){
-      ctx.clearRect(0,0,w,h);
-      for(let i=0;i<nodes.length;i++){
-        const a = nodes[i]; a.x+=a.vx; a.y+=a.vy; if(a.x<0||a.x>w) a.vx*=-1; if(a.y<0||a.y>h) a.vy*=-1;
-        const dxm=a.x-mouse.x*DPR, dym=a.y-mouse.y*DPR, dm2=dxm*dxm+dym*dym;
-        if(dm2 < (MOUSE_PULL*DPR)*(MOUSE_PULL*DPR)){ a.vx += dxm*0.00002; a.vy += dym*0.00002; }
-        ctx.beginPath(); ctx.fillStyle = RED+'0.55)'; ctx.arc(a.x,a.y,a.r,0,Math.PI*2); ctx.fill();
-        for(let j=i+1;j<nodes.length;j++){
-          const b=nodes[j]; const dx=a.x-b.x, dy=a.y-b.y; const d2=dx*dx+dy*dy; const max=(LINK_DIST*DPR)*(LINK_DIST*DPR);
-          if(d2<max){ const alpha = 1 - d2/max; ctx.strokeStyle = RED + (0.22*alpha) + ')'; ctx.lineWidth=DPR; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
-        }
-      }
-      raf = requestAnimationFrame(step);
-    }
-
-    addEventListener('resize', resize);
-    addEventListener('mousemove', e=>{ mouse.x=e.clientX; mouse.y=e.clientY; });
-    addEventListener('mouseleave', ()=>{ mouse.x=-9999; mouse.y=-9999; });
-
-    const media = matchMedia('(prefers-reduced-motion: reduce)');
-    function start(){ cancelAnimationFrame(raf); resize(); if(!media.matches) step(); }
-    media.addEventListener?.('change', start); start();
-  })();
-  </script>
+  <!-- Scripts: order matters (projects first, then app, then particles) -->
+  <script defer src="projects.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="particles.js"></script>
 </body>
 </html>
-
-
-
-
