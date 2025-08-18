@@ -23,7 +23,7 @@
 
   function showMenu(dlg) {
     const screen = dlg.querySelector('#gameScreen');
-    dlg.querySelector('#gameTitle').textContent = "Sack O' Games";
+    dlg.querySelector('#gameTitle').textContent = "Sack O' Games mini JavaScrip Version";
     dlg.querySelector('#gameBack').style.display = 'none';
     screen.innerHTML = `
       <div style="display:grid;gap:12px;max-width:420px">

@@ -20,7 +20,7 @@ window.PROJECTS = [
 
   { id:'capacitorcar',
   title:'Capacitor-Powered Car Model',
-  badges:['embedded','design'],
+  badges:['development','design','cad'],
   summary:'Energy storage demo car; analysis & testing.',
   img:'./assets/project-5.png',
   customButtons: [
@@ -62,7 +62,7 @@ window.PROJECTS = [
   {
     id:'PBE',
     title:'PBE Website Co-Developer',
-    badges:['development'],
+    badges:['development','design'],
     summary:'Marketing/info site for the PBE project with clean sections and CTAs.',
     img:'./assets/project-8.png',
     links:{
@@ -111,13 +111,12 @@ window.PROJECTS = [
   {
     id:'frc4063',
     title:'Team 4063 FRC Robot',
-    badges:['robotics','embedded'],
+    badges:['robotics','embedded','cad'],
     summary:'Competition robot design & programming for FRC 4063.',
     img:'./assets/project-1.png.JPG',
     links:{
       live:'https://youtu.be/uuoONiXpf4c?si=wNI9PEBVdEZ8wm8m'
     },
-    // Custom buttons: single Video
     customButtons: [
       { label: 'Video', url: 'https://youtu.be/uuoONiXpf4c?si=wNI9PEBVdEZ8wm8m' },
     ],
@@ -127,7 +126,7 @@ window.PROJECTS = [
   {
     id:'expandlet',
     title:'Expandlet',
-    badges:['cad'],
+    badges:['cad','design','development'],
     summary:'Expandable outlet that retracts in wall to keep everything organized.',
     img:'./assets/project-3.png.jpg',
     links:{
