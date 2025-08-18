@@ -84,9 +84,11 @@ window.PROJECTS = [
     img:'./assets/project-9.png',
     links:{
       code:'https://github.com/ricMejia1/Sack_O_Games',
+      game: true
     },
     customButtons: [
       { label: 'Code', url: 'https://github.com/ricMejia1/Sack_O_Games' },
+      { label: 'Play', action: 'game', game: 'menu' }, // game launcher  
     ],
     details:`<p><strong>Stack:</strong> HTML, CSS, JavaScript (modules).</p><ul><li>Multiple casual games (e.g., tic-tac-toe, Snake, Math Game).</li><li>Local settings.</li><li>Mobile-first controls with accessible keyboard input.</li></ul>`
   },

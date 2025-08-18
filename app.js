@@ -60,54 +60,68 @@ const renderProjects = (filter = 'all') => {
   const list = all.filter(p => filter === 'all' || (p.badges || []).includes(filter));
 
   function buildButtonsRow(p) {
-    const out = [];
-    const addBtn = (html) => out.push(html);
+  const out = [];
+  const addBtn = (html) => out.push(html);
 
-    const hasDetails = !!p.details;
+  const hasDetails = !!p.details;
 
-    if (Array.isArray(p.customButtons) && p.customButtons.length) {
-      // Prefer up to two custom buttons, then Details (if available) as the 3rd
-      const firstTwo = p.customButtons.slice(0, 2);  // reserve slot #3 for Details
-      firstTwo.forEach(btn => {
-        const hasUrl = btn && btn.url && btn.url !== '#';
-        if (hasUrl) {
-          addBtn(`<a class="btn" href="${btn.url}" target="_blank" rel="noreferrer">${btn.label || 'Link'}</a>`);
-        } else {
-          addBtn(`<span class="btn" aria-disabled="true">${btn.label || 'Link'}</span>`);
-        }
-      });
+  if (Array.isArray(p.customButtons) && p.customButtons.length) {
+    // Prefer up to two custom buttons, then Details (if available) as the 3rd
+    const firstTwo = p.customButtons.slice(0, 2);
 
-      if (hasDetails) {
-        addBtn(`<button class="btn primary" data-open="${p.id}">Details</button>`);
-      } else if (p.customButtons.length >= 3) {
-        // If no details, let a 3rd custom occupy the last slot
-        const b3 = p.customButtons[2];
-        const ok = b3 && b3.url && b3.url !== '#';
-        addBtn(ok
+    firstTwo.forEach(btn => {
+      // 1) Action button (launch in-page game)
+      if (btn && btn.action === 'game') {
+        const which = btn.game || 'menu';
+        addBtn(`<button class="btn primary play-game" data-game="${which}">${btn.label || 'Play'}</button>`);
+        return;
+      }
+
+      // 2) Normal link button
+      const ok = btn && btn.url && btn.url !== '#';
+      addBtn(ok
+        ? `<a class="btn" href="${btn.url}" target="_blank" rel="noreferrer">${btn.label || 'Link'}</a>`
+        : `<span class="btn" aria-disabled="true">${(btn && btn.label) || 'Link'}</span>`
+      );
+    });
+
+    if (hasDetails) {
+      addBtn(`<button class="btn primary" data-open="${p.id}">Details</button>`);
+    } else if (p.customButtons.length >= 3) {
+      // If no details, allow a 3rd custom
+      const b3 = p.customButtons[2];
+      if (b3?.action === 'game') {
+        const which = b3.game || 'menu';
+        addBtn(`<button class="btn primary play-game" data-game="${which}">${b3.label || 'Play'}</button>`);
+      } else {
+        const ok3 = b3 && b3.url && b3.url !== '#';
+        addBtn(ok3
           ? `<a class="btn" href="${b3.url}" target="_blank" rel="noreferrer">${b3.label || 'Link'}</a>`
           : `<span class="btn" aria-disabled="true">${(b3 && b3.label) || 'Link'}</span>`
         );
       }
-    } else {
-      // Default: Live / Code / Details
-      const liveOk = p.links && p.links.live && p.links.live !== '#';
-      const codeOk = p.links && p.links.code && p.links.code !== '#';
-
-      addBtn(liveOk
-        ? `<a class="btn" href="${p.links.live}" target="_blank" rel="noreferrer">Live</a>`
-        : `<span class="btn" aria-disabled="true">Live</span>`
-      );
-      addBtn(codeOk
-        ? `<a class="btn" href="${p.links.code}" target="_blank" rel="noreferrer">Code</a>`
-        : `<span class="btn" aria-disabled="true">Code</span>`
-      );
-      addBtn(`<button class="btn primary" data-open="${p.id}">Details</button>`);
     }
+  } else {
+    // Default: Live / Code / Details
+    const liveOk = p.links && p.links.live && p.links.live !== '#';
+    const codeOk = p.links && p.links.code && p.links.code !== '#';
 
-    // pad to exactly 3 columns
-    while (out.length < 3) out.push(`<span class="btn placeholder" aria-hidden="true">–</span>`);
-    return out.join('');
+    addBtn(liveOk
+      ? `<a class="btn" href="${p.links.live}" target="_blank" rel="noreferrer">Live</a>`
+      : `<span class="btn" aria-disabled="true">Live</span>`
+    );
+    addBtn(codeOk
+      ? `<a class="btn" href="${p.links.code}" target="_blank" rel="noreferrer">Code</a>`
+      : `<span class="btn" aria-disabled="true">Code</span>`
+    );
+    addBtn(`<button class="btn primary" data-open="${p.id}">Details</button>`);
   }
+
+  // pad to exactly 3 columns so all cards align
+  while (out.length < 3) out.push(`<span class="btn placeholder" aria-hidden="true">–</span>`);
+  return out.join('');
+}
+
 
   for (let i = 0; i < list.length; i++) {
     const p = list[i];
@@ -148,17 +162,73 @@ $$('[data-filter]').forEach(function(b){
 });
 $('#modalClose')?.addEventListener('click', function(){ $('#projectModal').close(); });
 
-// Contact (mailto)
-$('#contactForm').addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const fd = new FormData(e.currentTarget);
-  const name = encodeURIComponent(fd.get('name'));
-  const email = encodeURIComponent(fd.get('email'));
-  const msg = encodeURIComponent(fd.get('message'));
-  const subject = `Portfolio Contact — ${name}`;
-  const body = `From: ${name} (%3C${email}%3E)%0D%0A%0D%0A${msg}`;
-  location.href = `mailto:richmejia210@gmail.com?subject=${subject}&body=${body}`;
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.play-game');
+  if (!btn) return;
+  const which = btn.dataset.game || 'menu'; // 'menu', 'snake', 'tictactoe', 'math'
+  if (window.SOG && typeof window.SOG.open === 'function') {
+    window.SOG.open(which);
+  } else {
+    alert('Games module not loaded.');
+  }
 });
+
+// ------- Formspree submit (with graceful fallback) -------
+(() => {
+  const form  = document.getElementById('contactForm');
+  const btn   = document.getElementById('contactSubmit');
+  const status= document.getElementById('formStatus');
+  if (!form) return;
+
+  const FORMSPREE_ID = 'meoznrnz';
+  const ENDPOINT = `https://formspree.io/f/${FORMSPREE_ID}`;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    status.textContent = '';
+    const fd = new FormData(form);
+
+    // basic validation
+    const name = (fd.get('name') || '').toString().trim();
+    const email= (fd.get('email')|| '').toString().trim();
+    const msg  = (fd.get('message')|| '').toString().trim();
+    const trap = (fd.get('_gotcha')|| '').toString().trim();
+    if (!name || !email || !msg) { status.textContent = 'Please fill out all fields.'; return; }
+    if (trap) { status.textContent = 'Spam blocked.'; return; }
+
+    try {
+      btn.disabled = true; btn.textContent = 'Sending…';
+
+      // Send as multipart/form-data (preferred by Formspree)
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: fd
+      });
+
+      if (res.ok) {
+        status.textContent = 'Thanks! Your message was sent.';
+        form.reset();
+      } else {
+        // Try to surface Formspree’s error
+        let err = 'Submission failed. Please try again or email me directly.';
+        try {
+          const data = await res.json();
+          if (data && data.errors && data.errors[0]?.message) err = data.errors[0].message;
+        } catch {}
+        status.textContent = err;
+      }
+    } catch (err) {
+      // Network problem: fall back to the form’s native submit (no-JS path)
+      status.textContent = 'Network issue detected. Trying fallback…';
+      form.submit(); // uses the action/method attributes
+    } finally {
+      btn.disabled = false; btn.textContent = 'Send';
+    }
+  });
+})();
+
 
 // Theme toggle (button + keyboard) — sync desktop & mobile buttons
 const toggleTheme = ()=>{
@@ -284,3 +354,4 @@ document.addEventListener("DOMContentLoaded", () => {
   backToTop.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+

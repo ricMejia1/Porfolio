@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thank You — Ricardo Mejia</title>
+  <meta name="description" content="Thanks for your message. I’ll get back to you shortly." />
+
+  <!-- Apply saved theme ASAP to avoid flash -->
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('theme') === 'light') {
+          document.documentElement.classList.add('light');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- particles background (matches your site) -->
+  <canvas id="bg-net" aria-hidden="true"></canvas>
+
+  <header>
+    <div class="container topbar">
+      <strong class="brand">RM</strong>
+      <nav class="links" aria-label="Primary">
+        <a class="btn" href="index.html#projects">Projects</a>
+        <a class="btn" href="index.html#skills">Skills</a>
+        <a class="btn" href="index.html#experience">Experience</a>
+        <a class="btn" href="index.html#contact">Contact</a>
+        <span class="spacer"></span>
+        <!-- Optional theme toggle (keeps parity with home) -->
+        <button class="btn" id="themeToggle">☾☀︎ Theme</button>
+        <a class="btn primary" href="./assets/RicardoMejiaResumePorfolio.pdf" target="_blank" rel="noopener">⬇️ Resume</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="min-height:60vh; display:grid; place-items:center;">
+    <article class="card" style="max-width:680px; text-align:center">
+      <div class="badge">Message received</div>
+      <h1 style="margin-top:8px">Thank you</h1>
+      <p class="muted" style="margin:10px 0 18px">
+        Your message was sent successfully. I’ll get back to you soon.
+      </p>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap">
+        <a class="btn primary" href="index.html">Back to home</a>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container" style="text-align:center">
+      © <span id="year"></span> Ricardo Mejia — All Rights Reserved
+    </div>
+  </footer>
+
+  <!-- Particles (same script you use on the home page) -->
+  <script defer src="particles.js"></script>
+
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Theme toggle (mirrors your main site behavior)
+    const toggleTheme = () => {
+      const root = document.documentElement;
+      const light = root.classList.toggle('light');
+      try { localStorage.setItem('theme', light ? 'light' : 'dark'); } catch(e){}
+    };
+    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+  </script>
+</body>
+</html>
