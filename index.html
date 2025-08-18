@@ -63,7 +63,7 @@
     <!-- Hero -->
     <section class="hero" aria-label="Intro">
       <div>
-        <div class="badge">Texas A&M • <span class="mono" id="statusClock">UTC-00:00</span></div>
+        <div class="badge">Your Location • <span class="mono" id="statusClock">UTC-00:00</span></div>
         <h1>Hi, I’m <span class="grad">Ricardo Mejia</span> — Mechatronics / Multidisciplinary Engineering Student at Texas A&M University.</h1>
         <p class="muted" style="margin:10px 0 16px">Robotics, embedded systems (STM32), and IoT projects. I love applying theory to practical builds and clean UI for control dashboards.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap" class="no-print">
@@ -123,7 +123,7 @@
       <h2>Experience</h2>
       <div class="card timeline">
         <div class="tl-item"><div class="tl-title"><span class="tl-role">Mechatronics Engineering Student</span> • <span class="tl-org">Texas A&M University</span></div><div class="muted">May 2022 – Present • College Station, Texas</div></div>
-        <div class="tl-item"><div class="tl-title"><span class="tl-role">Manufacturing Engineer</span> • <span class="tl-org">Howmet Aerospace — Internship</span></div><div class="muted">May 2025 – Aug 2025 · 4 mos • United States & Mexico • On-site</div></div>
+        <div class="tl-item"><div class="tl-title"><span class="tl-role">Manufacturing Engineer</span> • <span class="tl-org">Howmet Aerospace — Internship</span></div><div class="muted">May 2025 – Aug 2025 · 12 weeks • United States & Mexico • On-site</div></div>
         <div class="tl-item"><div class="tl-title"><span class="tl-role">Leasing Agent (Community Assistant)</span> • <span class="tl-org">Asset Living — Part-time</span></div><div class="muted">Nov 2023 – Apr 2025 · 1 yr 6 mos • College Station, Texas • On-site</div></div>
         <div class="tl-item"><div class="tl-title"><span class="tl-role">Automotive Sales</span> • <span class="tl-org">Cecil Atkission Ford Lincoln — Full-time</span></div><div class="muted">May 2022 – Aug 2022 · 4 mos • Del Rio, Texas • On-site</div></div>
       </div>
@@ -192,6 +192,17 @@
     </div>
   </dialog>
 
+  <!-- Image Lightbox -->
+  <dialog id="imgLightbox" aria-label="Image preview">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid color-mix(in srgb,var(--text) 10%, transparent)">
+      <strong id="lightCaption">Preview</strong>
+      <button class="btn" id="lightClose" aria-label="Close">✕</button>
+    </div>
+    <div style="padding:12px 14px">
+      <img id="lightImg" alt="" style="max-width:92vw;max-height:82vh;border-radius:12px;display:block;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,.35)">
+    </div>
+  </dialog>
+
   <!-- JSON-LD for recruiters/ATS -->
   <script type="application/ld+json" id="jsonld"></script>
 
@@ -199,5 +210,11 @@
   <script defer src="projects.js"></script>
   <script defer src="app.js"></script>
   <script defer src="particles.js"></script>
+
+  <!-- Arrow Button for Mobil to Return Top -->
+  <button id="backToTop">
+    <img src="assets/arrow.png" alt="Back to top">
+  </button>
+
 </body>
 </html>

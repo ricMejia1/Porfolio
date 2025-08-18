@@ -26,13 +26,17 @@ header{ position:sticky; top:0; backdrop-filter:saturate(120%) blur(10px);
 .brand{ font-weight:700 }
 
 /* Buttons */
-.btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px;
+.btn{
+  display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px;
   border:1px solid color-mix(in srgb,var(--text) 14%, transparent);
   background:linear-gradient(180deg, color-mix(in srgb,var(--card) 90%, transparent), color-mix(in srgb,var(--card) 70%, transparent));
-  cursor:pointer; transition:.2s ease; user-select:none }
+  cursor:pointer; transition:.2s ease; user-select:none;
+  color: var(--text); /* <-- make button label follow theme */ }
 .btn:hover{ transform:translateY(-1px); box-shadow:0 10px 30px rgba(0,0,0,.25) }
 .btn.primary{ border-color:color-mix(in srgb,var(--brand) 60%, transparent);
   background:linear-gradient(180deg, color-mix(in srgb,var(--brand) 22%, var(--card)), color-mix(in srgb,var(--brand) 8%, var(--card))); }
+
+
 
 /* Desktop nav row */
 nav.links{ display:flex; align-items:center; gap:12px; margin-left:10px }
@@ -123,3 +127,86 @@ dialog::backdrop{ background:rgba(0,0,0,.55) }
 
 footer{ padding:40px 0; color:var(--muted) }
 @media print{ header,.no-print{display:none!important} body{background:#fff;color:#000} .card{border:1px solid #000} }
+
+/* Arrow button for Mobil view */
+#backToTop {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 100;
+}
+
+#backToTop img {
+  width: 24px;
+  height: 24px;
+  transform: rotate(180deg); /* flips arrow upward */
+}
+
+#backToTop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (min-width: 860px) {
+  #backToTop { display: none; } /* only show on mobile */
+}
+
+/* Uniform actions row across all cards */
+.actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Make buttons fill their grid cell and align visually */
+.actions .btn { width: 100%; justify-content: center; }
+
+/* Disabled/inactive slot that still occupies space to keep alignment */
+.btn.placeholder {
+  visibility: hidden;               /* still takes up space */
+  pointer-events: none;
+}
+
+/* Optional: style for disabled links (when url is '#') */
+.btn[aria-disabled="true"] {
+  opacity: .55;
+  pointer-events: none;
+}
+
+/* Project card actions: 3 equal columns, consistent alignment */
+.card .actions{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:10px;
+  margin-top:10px;
+}
+
+.card .actions .btn{
+  width:100%;
+  justify-content:center;   /* centers label inside the pill */
+}
+
+/* Placeholder cells keep layout even; hide their visuals */
+.card .actions .btn.placeholder{
+  visibility:hidden;        /* reserves space but not visible */
+  pointer-events:none;
+}
+
+/* Optional: style for disabled links created by renderer */
+.card .actions .btn[aria-disabled="true"]{
+  opacity:.55;
+  cursor:not-allowed;
+}

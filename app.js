@@ -42,38 +42,111 @@ clk();
 setInterval(clk, 1000);
 
 // Projects render
-const renderProjects = (filter='all') => {
+// Reusable fallback thumbnail (keeps it simple—no nested backticks)
+const IMG_FALLBACK = 'data:image/svg+xml,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225">' +
+    '<rect width="100%" height="100%" fill="#12141a"/>' +
+    '<text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" ' +
+    'fill="#999" font-family="Inter" font-size="16">Image not found</text>' +
+  '</svg>'
+);
+
+const renderProjects = (filter = 'all') => {
   const root = $('#projectGrid');
+  if (!root) return;
   root.innerHTML = '';
-  const list = state.projects.filter(p => filter==='all' || p.badges.includes(filter));
-  for (const p of list) {
+
+  const all = Array.isArray(state.projects) ? state.projects : [];
+  const list = all.filter(p => filter === 'all' || (p.badges || []).includes(filter));
+
+  function buildButtonsRow(p) {
+    const out = [];
+    const addBtn = (html) => out.push(html);
+
+    const hasDetails = !!p.details;
+
+    if (Array.isArray(p.customButtons) && p.customButtons.length) {
+      // Prefer up to two custom buttons, then Details (if available) as the 3rd
+      const firstTwo = p.customButtons.slice(0, 2);  // reserve slot #3 for Details
+      firstTwo.forEach(btn => {
+        const hasUrl = btn && btn.url && btn.url !== '#';
+        if (hasUrl) {
+          addBtn(`<a class="btn" href="${btn.url}" target="_blank" rel="noreferrer">${btn.label || 'Link'}</a>`);
+        } else {
+          addBtn(`<span class="btn" aria-disabled="true">${btn.label || 'Link'}</span>`);
+        }
+      });
+
+      if (hasDetails) {
+        addBtn(`<button class="btn primary" data-open="${p.id}">Details</button>`);
+      } else if (p.customButtons.length >= 3) {
+        // If no details, let a 3rd custom occupy the last slot
+        const b3 = p.customButtons[2];
+        const ok = b3 && b3.url && b3.url !== '#';
+        addBtn(ok
+          ? `<a class="btn" href="${b3.url}" target="_blank" rel="noreferrer">${b3.label || 'Link'}</a>`
+          : `<span class="btn" aria-disabled="true">${(b3 && b3.label) || 'Link'}</span>`
+        );
+      }
+    } else {
+      // Default: Live / Code / Details
+      const liveOk = p.links && p.links.live && p.links.live !== '#';
+      const codeOk = p.links && p.links.code && p.links.code !== '#';
+
+      addBtn(liveOk
+        ? `<a class="btn" href="${p.links.live}" target="_blank" rel="noreferrer">Live</a>`
+        : `<span class="btn" aria-disabled="true">Live</span>`
+      );
+      addBtn(codeOk
+        ? `<a class="btn" href="${p.links.code}" target="_blank" rel="noreferrer">Code</a>`
+        : `<span class="btn" aria-disabled="true">Code</span>`
+      );
+      addBtn(`<button class="btn primary" data-open="${p.id}">Details</button>`);
+    }
+
+    // pad to exactly 3 columns
+    while (out.length < 3) out.push(`<span class="btn placeholder" aria-hidden="true">–</span>`);
+    return out.join('');
+  }
+
+  for (let i = 0; i < list.length; i++) {
+    const p = list[i];
     const card = document.createElement('article');
     card.className = 'card';
-    const safeImg = p.img || '';
-    const onerr = `this.onerror=null; this.src='data:image/svg+xml,${encodeURIComponent("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 225\"><rect width=\"100%\" height=\"100%\" fill=\"#12141a\"/><text x=\"50%\" y=\"52%\" dominant-baseline=\"middle\" text-anchor=\"middle\" fill=\"#999\" font-family=\"Inter\" font-size=\"16\">Image not found</text></svg>")}'`;
-    card.innerHTML = `
-      <img loading="lazy" src="${safeImg}" alt="${p.title} cover" class="thumb" onerror="${onerr}">
-      <h3 style="margin-top:10px">${p.title}</h3>
-      <p class="muted">${p.summary}</p>
-      <div>${p.badges.map(b=>`<span class='tag'>${b}</span>`).join('')}</div>
-      <div style="display:flex;gap:10px;margin-top:10px" class="no-print">
-        <a class="btn" href="${p.links.live}" target="_blank" rel="noreferrer">🔗 Live</a>
-        <a class="btn" href="${p.links.code}" target="_blank" rel="noreferrer">💻 Code</a>
-        <button class="btn primary" data-open="${p.id}">Details</button>
-      </div>`;
+
+    const onerr = "this.onerror=null; this.src='" + IMG_FALLBACK + "'";
+
+    card.innerHTML =
+      '<img loading="lazy" src="' + (p.img || '') + '" alt="' + (p.title || 'Project') +
+      ' cover" class="thumb" onerror="' + onerr + '">' +
+      '<h3 style="margin-top:10px">' + (p.title || '') + '</h3>' +
+      '<p class="muted">' + (p.summary || '') + '</p>' +
+      '<div>' + ((p.badges || []).map(function(b){ return "<span class=\'tag\'>" + b + "</span>"; }).join('')) + '</div>' +
+      '<div class="actions no-print">' + buildButtonsRow(p) + '</div>';
+
     root.appendChild(card);
   }
-  $$('[data-open]').forEach(btn=>btn.addEventListener('click', e=>{
-    const id = e.currentTarget.getAttribute('data-open');
-    const proj = state.projects.find(p=>p.id===id);
-    $('#modalTitle').textContent = proj.title;
-    $('#modalBody').innerHTML = proj.details;
-    $('#projectModal').showModal();
-  }));
-}
+
+  // Details modal hooks (with graceful fallback if details missing)
+  $$('[data-open]').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      const id = e.currentTarget.getAttribute('data-open');
+      const proj = all.find(function(x){ return x.id === id; });
+      if (!proj) return;
+      $('#modalTitle').textContent = proj.title || 'Project';
+      const fallback = '<p>' + (proj.summary || 'More details coming soon.') + '</p>';
+      $('#modalBody').innerHTML = proj.details || fallback;
+      $('#projectModal').showModal();
+    });
+  });
+};
+
+// re-render and filter bindings (leave as you had them)
 renderProjects();
-$$('[data-filter]').forEach(b=>b.addEventListener('click',()=>renderProjects(b.dataset.filter)));
-$('#modalClose')?.addEventListener('click',()=>$('#projectModal').close());
+$$('[data-filter]').forEach(function(b){
+  b.addEventListener('click', function(){ renderProjects(b.dataset.filter); });
+});
+$('#modalClose')?.addEventListener('click', function(){ $('#projectModal').close(); });
 
 // Contact (mailto)
 $('#contactForm').addEventListener('submit', (e)=>{
@@ -161,3 +234,53 @@ document.addEventListener("DOMContentLoaded", () => {
     contactLink.insertAdjacentElement("afterend", resumeLink);
   }
 });
+
+// ------- Image Lightbox (works for all project thumbnails) -------
+(function(){
+  const dlg = document.getElementById('imgLightbox');
+  const imgEl = document.getElementById('lightImg');
+  const captionEl = document.getElementById('lightCaption');
+  const closeBtn = document.getElementById('lightClose');
+
+  // Event delegation: click any .thumb (even after re-render)
+  document.addEventListener('click', (e) => {
+    const img = e.target.closest('img.thumb');
+    if (!img) return;
+    const full = img.getAttribute('data-full') || img.src;
+    imgEl.src = full;
+    imgEl.alt = img.alt || 'Preview';
+    captionEl.textContent = img.alt || 'Preview';
+    dlg.showModal();
+  });
+
+  // Close via button
+  closeBtn.addEventListener('click', () => dlg.close());
+
+  // Close when clicking outside the image area
+  dlg.addEventListener('click', (e) => {
+    // If click is outside the inner content, close
+    const dialogRect = dlg.getBoundingClientRect();
+    if (
+      e.clientX < dialogRect.left || e.clientX > dialogRect.right ||
+      e.clientY < dialogRect.top  || e.clientY > dialogRect.bottom
+    ) dlg.close();
+  });
+
+  // Esc key works automatically for <dialog>, but this ensures focus safety
+  dlg.addEventListener('cancel', (e) => { e.preventDefault(); dlg.close(); });
+  })();
+
+  // Mobil button Arrow, return top
+  const backToTop = document.getElementById('backToTop');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 200) {
+      backToTop.classList.add('show');
+    } else {
+      backToTop.classList.remove('show');
+    }
+  });
+
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
