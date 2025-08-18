@@ -281,3 +281,26 @@ footer{ padding:40px 0; color:var(--muted) }
   .desktop-only { display: none !important; }
   .mobile-only  { display: inline-flex !important; }
 }
+
+/* 1) Back-to-top arrow (it's an <img>) */
+#backToTop img {
+  filter: invert(100%);              /* light-on-dark by default */
+  transition: filter .25s ease;
+}
+.light #backToTop img {
+  filter: invert(0%);                /* dark-on-light */
+}
+
+/* inverting color for hidden mobile menu of buttons */
+#menuOpen, /* hamburger ☰ */
+#menuClose /* close ✕ */ {
+  color: var(--text);                /* follow theme text color */
+  opacity: .95;
+  transition: opacity .2s ease;
+}
+#menuOpen:hover,
+#menuClose:hover { opacity: 1; }
+
+/* If  ever switch to IMG icons for menu open/close */
+#menuOpen img, #menuClose img { filter: invert(100%); }
+.light #menuOpen img, .light #menuClose img { filter: invert(0%); }
