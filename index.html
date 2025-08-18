@@ -53,7 +53,7 @@
     <a href="#projects" data-close>Projects</a>
     <a href="#skills" data-close>Skills</a>
     <a href="#experience" data-close>Experience</a>
-    <a href="#contact" data-close>Contact</a>
+    <!-- <a href="#contact" data-close>Contact</a> --> <!-- This will be commented out if I proceed with a different screen for contact -->
     <a href="./assets/RicardoMejiaResumePorfolio.pdf" target="_blank" rel="noopener" data-close>⬇️ Resume</a>
     <button type="button" class="menu-theme-btn" id="themeToggleMobile">☾☀︎ Theme</button>
   </nav>
@@ -68,7 +68,7 @@
         <p class="muted" style="margin:10px 0 16px">Robotics, Embedded Systems, IoT projects, and Automation. I love applying theory to practical builds and clean UI for control dashboards.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap" class="no-print">
           <a class="btn primary" href="#projects">🚀 View Projects</a>
-          <a class="btn" href="#contact">📨 Contact</a>
+          <a class="btn" id="contactLink" href="#contact">📨 Contact</a>
         </div>
       </div>
       <div class="card">
@@ -132,7 +132,7 @@
     </section>
 
     <!-- Contact -->
-    <section id="contact" style="margin-top:30px">
+    <section id="contact" class="desktop-only" style="margin-top:30px">
       <h2>Contact</h2>
       <div class="grid cols-2">
         <!-- IMPORTANT: action + method enable no-JS fallback -->
@@ -156,7 +156,7 @@
           <!-- Optional helpers -->
           <input type="hidden" name="_subject" value="Portfolio Contact">
           <!-- After success, Formspree can redirect here (optional) -->
-          <!-- <input type="hidden" name="_redirect" value="https://ricardomejia.dev/thanks.html"> -->
+          <!-- <input type="hidden" name="_redirect" value="http://ricardomejia.dev/thanks.html"> -->
 
           <br>
           <button class="btn primary" type="submit" id="contactSubmit">Send</button>
@@ -174,14 +174,14 @@
             <a class="btn" href="https://www.linkedin.com/in/ricardo-mejia-a64929251/" target="_blank" rel="noreferrer">LinkedIn</a>
           </div>
           <h3>About Me</h3>
-          <p class="muted" style="margin:10px 0 16px">I love applying theory to real-world builds — whether it’s a robot, an IoT system, or a sleek UI that makes control simple. My passions stretch beyond engineering into language learning, star gazing, and even strategic gambling. For me, every project is a chance to learn, experiment, and push boundaries — whether that’s in CAD, programming, or building something that actually works.</p>
+          <p class="muted" style="margin:10px 0 16px">I love applying theory to real-world builds. Whether it’s a robot, an IoT system, or a sleek UI that makes control simple. My passions stretch beyond engineering into language learning, star gazing, and even strategic gambling. For me, every project is a chance to learn, experiment, and push boundaries. Whether that’s in CAD, programming, or building something that actually works.</p>
         </div>
       </div>
     </section>
 
 
     <footer>
-      <div class="container" style="text-align:center">© <span id="year"></span> Ricardo Mejia — All Rights Reserved <span class="no-print">· Press <span class="kbd">?</span> for help</span></div>
+      <div class="container" style="text-align:center">© <span id="year"></span> Ricardo Mejia — All Rights Reserved</div>
     </footer>
   </main>
 

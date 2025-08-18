@@ -356,7 +356,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 const form = document.getElementById('contactForm');
+const btn  = document.getElementById('contactSubmit');
 
+if (form && btn) {
+  form.addEventListener('submit', () => {
+    btn.disabled = true;           // block double clicks
+    btn.textContent = 'Sending…';
+  });
+}
+
+//Hardcode for thanks.html screen on contact send button
 if (form) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault(); // stop default page reload
@@ -377,3 +386,18 @@ if (form) {
     }
   });
 }
+
+
+
+// Button split for Mobile and Desktop view for contact me
+(function(){
+  const link = document.getElementById('contactLink');
+  if (!link) return;
+
+  const mq = matchMedia('(max-width: 860px)');
+  const setHref = () => {
+    link.setAttribute('href', mq.matches ? 'contact.html' : '#contact');
+  };
+  mq.addEventListener?.('change', setHref);
+  setHref();
+})();

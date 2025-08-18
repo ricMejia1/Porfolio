@@ -272,3 +272,12 @@ footer{ padding:40px 0; color:var(--muted) }
 @media (min-width: 700px){
   .dpad { display: none; }   /* hidden on wide screens */
 }
+
+/* Mobile and desktop difference */
+.desktop-only { display: initial; }
+.mobile-only  { display: none; }
+
+@media (max-width: 860px){
+  .desktop-only { display: none !important; }
+  .mobile-only  { display: inline-flex !important; }
+}

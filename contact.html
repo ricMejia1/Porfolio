@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — Ricardo Mejia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/tab_image.png">
+</head>
+<body>
+  <main class="container" style="padding-top:28px">
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+      <a class="btn" href="index.html">← Back to Home</a>
+      <button class="btn" id="themeToggle">☾☀︎ Theme</button>
+    </div>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <div class="grid cols-2">
+        <form class="card" id="contactForm"
+              action="https://formspree.io/f/meoznrnz"
+              method="POST" novalidate>
+          <label>Name<br><input required name="name" class="btn" style="width:100%" placeholder="Your name"></label><br>
+          <label>Email<br><input required type="email" name="email" class="btn" style="width:100%" placeholder="you@email.com"></label><br>
+          <label>Message<br><textarea required name="message" class="btn" style="width:100%;height:120px" placeholder="How can I help?"></textarea></label>
+          <input type="text" name="_gotcha" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" tabindex="-1" aria-hidden="true">
+          <input type="hidden" name="_subject" value="Portfolio Contact">
+          <br>
+          <button class="btn primary" type="submit" id="contactSubmit">Send</button>
+          <small class="muted">Sends via Formspree. If it fails, email me directly: <a href="mailto:richmejia210@gmail.com">richmejia210@gmail.com</a></small>
+          <div id="formStatus" role="status" aria-live="polite" class="muted" style="margin-top:8px"></div>
+        </form>
+
+        <div class="card">
+          <h3>Elsewhere</h3>
+          <p class="muted">Links & profiles.</p>
+          <div>
+            <a class="btn" href="https://github.com/ricMejia1" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="btn" href="https://www.linkedin.com/in/ricardo-mejia-a64929251/" target="_blank" rel="noreferrer">LinkedIn</a>
+          </div>
+            <h3>About Me</h3>
+            <p class="muted" style="margin:10px 0 16px">I love applying theory to real-world builds. Whether it’s a robot, an IoT system, or a sleek UI that makes control simple. My passions stretch beyond engineering into language learning, star gazing, and even strategic gambling. For me, every project is a chance to learn, experiment, and push boundaries. Whether that’s in CAD, programming, or building something that actually works.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Theme toggle that matches index.html
+    const toggleTheme = ()=>{
+      const root = document.documentElement;
+      const next = root.classList.toggle('light') ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+    };
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    // Apply saved theme on load
+    if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light');
+  </script>
+</body>
+</html>
