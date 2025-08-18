@@ -43,9 +43,23 @@
     dlg.querySelector('#gameTitle').textContent = 'Snake';
     dlg.querySelector('#gameBack').style.display = '';
     screen.innerHTML = `
-      <canvas id="snakeCanvas" width="320" height="320" style="border:1px solid color-mix(in srgb,var(--text) 20%, transparent);display:block;margin:0 auto"></canvas>
-      <p class="muted" style="text-align:center;margin-top:8px">Use arrow keys. Eat food. Don’t hit yourself.</p>
+        <div style="display:grid;gap:10px;justify-items:center">
+        <canvas id="snakeCanvas" width="320" height="320"
+            style="border:1px solid color-mix(in srgb,var(--text) 20%, transparent);display:block"></canvas>
+        <p class="muted" style="text-align:center">Use arrow keys (desktop) or tap the D-pad (mobile).</p>
+
+        <!-- D-pad (hidden via CSS on larger screens) -->
+        <div class="dpad" id="dpad">
+            <button data-dir="up"    aria-label="Up">▲</button>
+            <div class="middle-row">
+            <button data-dir="left"  aria-label="Left">◀</button>
+            <button data-dir="right" aria-label="Right">▶</button>
+            </div>
+            <button data-dir="down"  aria-label="Down">▼</button>
+        </div>
+        </div>
     `;
+
     const c = screen.querySelector('#snakeCanvas');
     const ctx = c.getContext('2d');
     const N = 16, cell = c.width / N;
@@ -53,61 +67,56 @@
     let snake = [{x:8,y:8}];
     let food = spawn();
     let alive = true;
+    const dpad = screen.querySelector('#dpad');
 
-    function spawn(){
-      return { x: Math.floor(Math.random()*N), y: Math.floor(Math.random()*N) };
-    }
-
+    function spawn(){ return { x: Math.floor(Math.random()*N), y: Math.floor(Math.random()*N) }; }
     function step(){
-      if (!alive) return;
-      const head = { x: (snake[0].x + dir.x + N) % N, y: (snake[0].y + dir.y + N) % N };
-      // self hit?
-      if (snake.some(s => s.x===head.x && s.y===head.y)) { alive = false; draw(true); return; }
-      snake.unshift(head);
-      if (head.x===food.x && head.y===food.y) {
-        food = spawn();
-      } else {
-        snake.pop();
-      }
-      draw(false);
+        if (!alive) return;
+        const head = { x: (snake[0].x + dir.x + N) % N, y: (snake[0].y + dir.y + N) % N };
+        if (snake.some(s => s.x===head.x && s.y===head.y)) { alive = false; draw(true); return; }
+        snake.unshift(head);
+        if (head.x===food.x && head.y===food.y) food = spawn(); else snake.pop();
+        draw(false);
     }
-
     function draw(dead){
-      ctx.clearRect(0,0,c.width,c.height);
-      // grid
-      ctx.globalAlpha = 0.2;
-      for(let i=0;i<N;i++){ ctx.fillRect(i*cell,0,1,c.height); ctx.fillRect(0,i*cell,c.width,1); }
-      ctx.globalAlpha = 1;
-
-      // food
-      ctx.fillStyle = dead ? '#a00' : '#ef4444';
-      ctx.fillRect(food.x*cell, food.y*cell, cell, cell);
-
-      // snake
-      ctx.fillStyle = dead ? '#555' : '#22c55e';
-      snake.forEach(s => ctx.fillRect(s.x*cell, s.y*cell, cell, cell));
-
-      if (dead) {
-        ctx.fillStyle = '#999';
-        ctx.font = '16px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('Game over — press Back', c.width/2, c.height/2);
-      }
+        ctx.clearRect(0,0,c.width,c.height);
+        ctx.globalAlpha = 0.2;
+        for(let i=0;i<N;i++){ ctx.fillRect(i*cell,0,1,c.height); ctx.fillRect(0,i*cell,c.width,1); }
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = dead ? '#a00' : '#ef4444';  ctx.fillRect(food.x*cell, food.y*cell, cell, cell);
+        ctx.fillStyle = dead ? '#555' : '#22c55e';  snake.forEach(s => ctx.fillRect(s.x*cell, s.y*cell, cell, cell));
+        if (dead) { ctx.fillStyle = '#999'; ctx.font = '16px Inter, sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Game over — press Back', c.width/2, c.height/2); }
     }
-
     function onKey(e){
-      if (e.key==='ArrowUp'   && dir.y!==1)  dir={x:0,y:-1};
-      if (e.key==='ArrowDown' && dir.y!==-1) dir={x:0,y:1};
-      if (e.key==='ArrowLeft' && dir.x!==1)  dir={x:-1,y:0};
-      if (e.key==='ArrowRight'&& dir.x!==-1) dir={x:1,y:0};
+        if (e.key==='ArrowUp'   && dir.y!== 1) dir={x:0,y:-1};
+        if (e.key==='ArrowDown' && dir.y!==-1) dir={x:0,y: 1};
+        if (e.key==='ArrowLeft' && dir.x!== 1) dir={x:-1,y:0};
+        if (e.key==='ArrowRight'&& dir.x!==-1) dir={x: 1,y:0};
     }
     document.addEventListener('keydown', onKey);
+
+    const setDir = (d)=>{
+        if (d==='up'    && dir.y!== 1) dir={x:0,y:-1};
+        if (d==='down'  && dir.y!==-1) dir={x:0,y: 1};
+        if (d==='left'  && dir.x!== 1) dir={x:-1,y:0};
+        if (d==='right' && dir.x!==-1) dir={x: 1,y:0};
+    };
+    const onTap = (e)=>{
+        const btn = e.target.closest('button[data-dir]');
+        if (!btn) return;
+        setDir(btn.dataset.dir);
+    };
+    dpad.addEventListener('click', onTap);
+    dpad.addEventListener('touchstart', (e)=>{ onTap(e); e.preventDefault(); }, {passive:false});
+
     const timer = setInterval(step, 120);
     draw(false);
 
     // cleanup when leaving this screen
     return () => { clearInterval(timer); document.removeEventListener('keydown', onKey); };
   }
+
 
   // Tic-Tac-Toe (2 players, buttons)
   function runTTT(dlg){
@@ -234,3 +243,5 @@
     }
   };
 })();
+
+

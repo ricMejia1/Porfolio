@@ -355,3 +355,25 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
+const form = document.getElementById('contactForm');
+
+if (form) {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // stop default page reload
+    const data = new FormData(form);
+
+    try {
+      await fetch(form.action, {
+        method: form.method,
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      // ✅ Always go to thank you page after submit
+      window.location.href = "thanks.html"; 
+
+    } catch (err) {
+      alert("Something went wrong, please email me directly!");
+    }
+  });
+}
