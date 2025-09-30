@@ -94,7 +94,8 @@ nav.links{ display:flex; align-items:center; gap:12px; margin-left:10px }
 @media (max-width:900px){ .grid.cols-3{ grid-template-columns:1fr 1fr } }
 @media (max-width:700px){ .grid.cols-3,.grid.cols-2{ grid-template-columns:1fr } }
 
-.hero{ display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center; padding:38px 0 }
+/* Changed grid-template-colums:1.1fr to 1.fr and removed comented out snapshots in the index.html */
+.hero{ display:grid; grid-template-columns:1.fr .9fr; gap:28px; align-items:center; padding:38px 0 }
 @media (max-width:900px){ .hero{ grid-template-columns:1fr } }
 
 .card{ background:linear-gradient(180deg, color-mix(in srgb,var(--card) 86%, transparent), color-mix(in srgb,var(--card) 98%, transparent));
