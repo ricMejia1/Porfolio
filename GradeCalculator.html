@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grade Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0f172a; --card:#111827; --muted:#334155; --text:#e5e7eb; --accent:#38bdf8; }
+    *{box-sizing:border-box;}
+    body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; background:linear-gradient(180deg,#0b1220,#111827 30%,#0b1220); color:var(--text);} 
+    .wrap{max-width:1000px; margin:40px auto; padding:24px;}
+    .card{background:rgba(17,24,39,.85); border:1px solid rgba(148,163,184,.16); backdrop-filter: blur(6px); border-radius:16px; padding:20px; box-shadow:0 10px 30px rgba(0,0,0,.35);} 
+    h1{margin:0 0 6px; letter-spacing:.3px; font-size:28px}
+    .sub{color:#a3aab7; margin:0 0 18px;}
+    table{width:100%; border-collapse:collapse;}
+    th,td{padding:10px 8px; text-align:left; border-bottom:1px solid rgba(148,163,184,.12);} 
+    th{color:#cbd5e1; font-weight:600; font-size:14px;}
+    td input[type="text"], td input[type="number"]{width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(148,163,184,.24); background:#0b1220; color:var(--text);} 
+    td input[type="checkbox"]{transform:scale(1.15);} 
+    .btn{border:none; border-radius:12px; padding:10px 14px; color:#00131a; background:var(--accent); font-weight:700; cursor:pointer;}
+    .btn.secondary{background:#1f2937; color:#e5e7eb; border:1px solid rgba(148,163,184,.24);} 
+    .rowActions{display:flex; gap:8px;}
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+    .kpi{display:flex; align-items:center; justify-content:space-between; background:#0b1220; border:1px solid rgba(148,163,184,.16); border-radius:16px; padding:16px 18px;}
+    .kpi .label{color:#94a3b8; font-size:13px}
+    .kpi .value{font-size:22px; font-weight:800}
+    .warn{color:#fbbf24;}
+    .bad{color:#f87171;}
+    .good{color:#34d399;}
+    .muted{color:#94a3b8}
+    .toolbar{display:flex; gap:10px; align-items:center; justify-content:space-between; margin:12px 0 8px;}
+    .small{font-size:12px}
+    .totalWeight{font-weight:700}
+    .footer{margin-top:14px; color:#8b98a7; font-size:12px}
+    .pill{display:inline-block; padding:6px 10px; border:1px solid rgba(148,163,184,.24); border-radius:999px;}
+    .right{display:flex; gap:8px; align-items:center}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Grade Calculator</h1>
+      <p class="sub">Enter categories, their weights (must total 100%), and your actual or predicted scores. Mark exactly one row as your <strong>Final Exam</strong> to compute the score needed to reach a target overall.</p>
+
+      <div class="toolbar">
+        <div class="left">
+          <button class="btn" id="addRowBtn">+ Add category</button>
+          <button class="btn secondary" id="resetBtn" title="Clear all rows">Reset</button>
+        </div>
+        <div class="right">
+          <span class="pill">Total weight: <span id="totalWeight" class="totalWeight">0</span>%</span>
+          <label class="pill" style="gap:8px;">
+            Target overall (%):
+            <input id="targetOverall" type="number" min="0" max="100" step="0.01" value="90" style="width:90px; margin-left:8px; color:var(--text); background:#0b1220; border:0; outline:none;">
+          </label>
+        </div>
+      </div>
+
+      <table id="gradeTable">
+        <thead>
+          <tr>
+            <th style="width:34%">Category</th>
+            <th style="width:16%">Weight %</th>
+            <th style="width:18%">Score % (actual or guess)</th>
+            <th style="width:14%">Final?</th>
+            <th style="width:18%">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+
+      <div class="grid" style="margin-top:18px;">
+        <div class="kpi">
+          <div>
+            <div class="label">Weighted grade using entered values</div>
+            <div class="small muted">If some scores are blank, they contribute 0 until you enter a guess.</div>
+          </div>
+          <div class="value" id="weightedNow">0.00%</div>
+        </div>
+        <div class="kpi">
+          <div>
+            <div class="label">Needed on Final to hit Target</div>
+            <div class="small muted">Assumes all non‑final rows stay as entered.</div>
+          </div>
+          <div class="value" id="neededOnFinal">—</div>
+        </div>
+      </div>
+
+      <div id="messages" style="margin-top:10px"></div>
+
+      <div class="footer">Tip: leave non‑final scores blank to explore best/worst‑case scenarios; or enter a guess to test “what‑ifs”.</div>
+    </div>
+  </div>
+
+<script>
+  const tbody = document.getElementById('tbody');
+  const totalWeightEl = document.getElementById('totalWeight');
+  const weightedNowEl = document.getElementById('weightedNow');
+  const neededOnFinalEl = document.getElementById('neededOnFinal');
+  const messagesEl = document.getElementById('messages');
+  const targetOverallEl = document.getElementById('targetOverall');
+
+  document.getElementById('addRowBtn').addEventListener('click', addRow);
+  document.getElementById('resetBtn').addEventListener('click', () => { tbody.innerHTML=''; addRow(); addRow(); recalc(); });
+  targetOverallEl.addEventListener('input', recalc);
+
+  function addRow(pref={name:'', weight:'', score:'', isFinal:false}){
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" placeholder="e.g., Quizzes" value="${pref.name}"></td>
+      <td><input type="number" min="0" max="100" step="0.01" placeholder="e.g., 20" value="${pref.weight}" ></td>
+      <td><input type="number" min="0" max="100" step="0.01" placeholder="leave blank to guess later" value="${pref.score}"></td>
+      <td style="text-align:center"><input type="checkbox" ${pref.isFinal? 'checked':''} ></td>
+      <td>
+        <div class="rowActions">
+          <button class="btn secondary" data-action="duplicate">Duplicate</button>
+          <button class="btn secondary" data-action="delete">Delete</button>
+        </div>
+      </td>`;
+
+    // Wire up events
+    const [nameEl, weightEl, scoreEl] = tr.querySelectorAll('input[type="text"], input[type="number"]');
+    const finalEl = tr.querySelector('input[type="checkbox"]');
+    [nameEl, weightEl, scoreEl].forEach(el => el.addEventListener('input', recalc));
+    finalEl.addEventListener('change', () => enforceSingleFinal(finalEl));
+    tr.querySelector('[data-action="delete"]').addEventListener('click', () => { tr.remove(); recalc(); });
+    tr.querySelector('[data-action="duplicate"]').addEventListener('click', () => { addRow(rowToPref(tr)); recalc(); });
+
+    tbody.appendChild(tr);
+    recalc();
+  }
+
+  function rowToPref(tr){
+    const tds = tr.querySelectorAll('td');
+    return {
+      name: tds[0].querySelector('input').value,
+      weight: tds[1].querySelector('input').value,
+      score: tds[2].querySelector('input').value,
+      isFinal: tds[3].querySelector('input').checked
+    };
+  }
+
+  function getRows(){
+    return [...tbody.querySelectorAll('tr')].map(rowToPref);
+  }
+
+  function enforceSingleFinal(changed){
+    if(!changed.checked) { recalc(); return; }
+    // uncheck all other finals
+    [...tbody.querySelectorAll('tr')].forEach(tr => {
+      const box = tr.querySelector('input[type="checkbox"]');
+      if(box!==changed) box.checked = false;
+    });
+    recalc();
+  }
+
+  function recalc(){
+    const rows = getRows();
+    const weights = rows.map(r => parseFloat(r.weight)).map(v => isNaN(v)?0:v);
+    const scores  = rows.map(r => parseFloat(r.score)).map(v => isNaN(v)?0:v);
+    const finals  = rows.map(r => r.isFinal === true);
+
+    const totalWeight = weights.reduce((a,b)=>a+b,0);
+    totalWeightEl.textContent = round2(totalWeight);
+
+    // Weighted grade using entered values (treat blank scores as 0)
+    const weightedNow = rows.reduce((acc, r, i)=> acc + (scores[i]/100) * (weights[i]/100), 0) * 100;
+    weightedNowEl.textContent = `${round2(weightedNow)}%`;
+
+    // Messages
+    messagesEl.innerHTML = '';
+    const msgs = [];
+    if (Math.abs(totalWeight - 100) > 0.01) {
+      msgs.push(`<div class="warn">⚠️ Total weight is ${round2(totalWeight)}%. Make sure weights sum to 100% for accurate final‑needed math.</div>`);
+    }
+    const finalIndex = finals.indexOf(true);
+    if (finalIndex === -1) {
+      msgs.push('<div class="warn">⚠️ Mark one row as your Final Exam to compute the required score.</div>');
+    } else if (finals.filter(Boolean).length > 1) {
+      msgs.push('<div class="bad">❌ Only one row may be marked as Final.</div>');
+    }
+
+    // Compute needed on final if possible
+    let neededTxt = '—';
+    if (finalIndex !== -1 && Math.abs(totalWeight-100) <= 0.01) {
+      const target = clamp(parseFloat(targetOverallEl.value), 0, 100);
+      const finalW = weights[finalIndex]/100; // in [0,1]
+      const sumNonFinal = rows.reduce((acc, r, i)=> i===finalIndex ? acc : acc + (scores[i]/100)*(weights[i]/100), 0);
+      const requiredFinal = ((target/100) - sumNonFinal) / (finalW || 1);
+      if (finalW<=0) {
+        neededTxt = 'Final weight is 0%';
+      } else {
+        const pct = requiredFinal * 100;
+        if (pct > 100) {
+          neededTxt = `<span class="bad">${round2(pct)}% (not feasible)</span>`;
+        } else if (pct < 0) {
+          neededTxt = `<span class="good">0.00% (already above target)</span>`;
+        } else {
+          let tone = pct >= 90 ? 'warn' : (pct >= 70 ? '' : 'good');
+          neededTxt = `<span class="${tone}">${round2(pct)}%</span>`;
+        }
+      }
+    }
+    neededOnFinalEl.innerHTML = neededTxt;
+
+    if (msgs.length) messagesEl.innerHTML = msgs.map(m=>`<div class="small">${m}</div>`).join('');
+  }
+
+  function round2(n){ return Math.round((n + Number.EPSILON) * 100) / 100; }
+  function clamp(n,min,max){ n = isNaN(n)?0:n; return Math.max(min, Math.min(max,n)); }
+
+  // Seed with a sensible starter layout
+  const starter = [
+    {name:'Homework', weight:25, score:''},
+    {name:'Quizzes',  weight:15, score:''},
+    {name:'Labs',     weight:20, score:''},
+    {name:'Midterm',  weight:20, score:''},
+    {name:'Final Exam', weight:20, score:'', isFinal:true},
+  ];
+  starter.forEach(addRow);
+</script>
+</body>
+</html>
