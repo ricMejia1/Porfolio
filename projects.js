@@ -27,28 +27,39 @@ window.PROJECTS = [
     <p><strong>Technical Focus:</strong> Emphasis on autonomy, robustness in tight spaces, and modular design for future expansion (additional sensors, mapping, or communication modules).</p>
   `
   },
-/*
+
   {
   id:'petfeeder',
   title:'Pet Feeder – Mechanical CAD Design',
   badges:['cad','design'],
-  summary:'Mechanically designed pet feeder focused on food flow, capacity, and manufacturable geometry.',
-  img:'./assets/project-petfeeder.png',
-  customButtons: [],
+  summary:'Gravity-fed pet feeder using timed servo actuation with fault-tolerant dispensing behavior.',
+  img:'./assets/project-12.png',
+  customButtons: [
+    { label:'CAD', url:'https://a360.co/3YTwhwC' }
+  ],
   details:`
-    <p><strong>Overview:</strong> Created a complete mechanical CAD design for a pet feeder, focusing on reliable food dispensing through passive, gravity-fed mechanisms.</p>
+    <p><strong>Overview:</strong> Designed a gravity-fed pet feeder that dispenses food using a servo-driven mechanism operating at fixed time intervals. The system relies on passive gravity flow while using controlled actuation to regulate dispensing.</p>
+
+    <p><strong>System Behavior:</strong></p>
+    <ul>
+      <li>Food is stored above the dispensing mechanism and flows downward via gravity</li>
+      <li>A servo motor actuates at a predefined period to allow controlled release</li>
+      <li>If the servo becomes stalled or stops functioning, the feeder halts dispensing</li>
+      <li>Once servo operation resumes, normal feeding automatically continues</li>
+    </ul>
+
     <p><strong>Design Considerations:</strong></p>
     <ul>
-      <li>Consistent food flow and portion sizing</li>
-      <li>Geometry optimized to prevent clogging</li>
-      <li>Ease of assembly and refill</li>
-      <li>Design for 3D printing or injection molding</li>
+      <li>Mechanical geometry optimized for consistent gravity-fed flow</li>
+      <li>Fail-safe behavior to prevent overfeeding during actuator failure</li>
+      <li>Simple, reliable mechanism with minimal moving parts</li>
+      <li>Designed for manufacturability and ease of assembly</li>
     </ul>
-    <p><strong>Tools:</strong> CAD modeling and parametric design techniques.</p>
-    <p><strong>Focus:</strong> Practical product design, tolerances, and manufacturability.</p>
+
+    <p><strong>Focus:</strong> Mechanical reliability, passive feeding principles, and fault-tolerant control behavior.</p>
   `
   },
-*/
+
   {
   id:'gradecalculator',
   title:'Grade Calculator',
