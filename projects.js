@@ -5,10 +5,10 @@ window.PROJECTS = [
   id:'SCUTTLEROBOT',
   title:'Autonomous CQB Robot',
   badges:['cad','design','robotics','embedded','development','team'],
-  summary:'Autonomous close quarters robot designed for indoor navigation, obstacle avoidance, and sensor driven decision making.',
+  summary:'Autonomous indoor robot for navigation, obstacle avoidance, and sensor-driven decisions in confined spaces.',
   img:'./assets/project-11.png',
   links:{
-    Drive:'https://drive.google.com/drive/folders/1FBiU_TRFdzaVovgCkgrRUX202gUrafny?usp=sharing',
+    code:'https://drive.google.com/drive/folders/1FBiU_TRFdzaVovgCkgrRUX202gUrafny?usp=sharing',
     live:'https://www.youtube.com/watch?v=yQ1Vi1F0Th8'
   },
   customButtons: [
@@ -79,7 +79,7 @@ window.PROJECTS = [
   {
     id:'smartglow',
     title:'SmartGlow IoT Light System',
-    badges:['iot','embedded','development'],
+    badges:['iot','embedded','development','web'],
     summary:'Door/motion sensors drive a servo light switch with web UI.',
     img:'./assets/project-4.png',
     links:{
@@ -95,7 +95,7 @@ window.PROJECTS = [
 
   { id:'capacitorcar',
   title:'Capacitor-Powered Car Model',
-  badges:['development','design','cad','team'],
+  badges:['development','design','cad','team','analysis/simulation'],
   summary:'Energy storage demo car; analysis & testing.',
   img:'./assets/project-5.png',
   customButtons: [
@@ -107,7 +107,7 @@ window.PROJECTS = [
 
   { id:'k2639',
     title:'Liquid Controller Analysis',
-    badges:['embedded','team'],
+    badges:['embedded','team','analysis/simulation'],
     summary:'Reverse-engineering & control behavior study.',
     img:'./assets/project-6.png',
     customButtons: [
@@ -120,8 +120,8 @@ window.PROJECTS = [
   {
     id:'OPW',
     title:'Past Portfolio Website',
-    badges:['development','design'],
-    summary:'My earlier personal site—static, fast, and minimal.',
+    badges:['development','design','web'],
+    summary:'My earlier personal site static, fast, and minimal.',
     img:'./assets/project-7.png',
     links:{
       code:'https://github.com/ricMejia1/Porfolio_Old',
@@ -137,7 +137,7 @@ window.PROJECTS = [
   {
     id:'PBE',
     title:'PBE Website Co-Developer',
-    badges:['development','design'],
+    badges:['development','design','web','team'],
     summary:'Marketing/info site for the PBE project with clean sections and CTAs.',
     img:'./assets/project-8.png',
     links:{
