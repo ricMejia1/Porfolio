@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ricardo Mejia — Portfolio</title>
-  <meta name="description" content="Portfolio of Ricardo Mejia — Texas A&M mechatronics/manufacturing engineering student. Projects, skills, experience, and contact." />
+  <title>Ricardo Mejia - Portfolio</title>
+  <meta name="description" content="Portfolio of Ricardo Mejia - Texas A&M mechatronics engineering student with a minor in Embedded Systems Integration, focused on robotics, controls, embedded systems, and manufacturing automation." />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260812i" />
 
   <!-- Tab image -->
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/tab_image.png">
@@ -22,7 +22,9 @@
 
   <header>
     <div class="container topbar">
-      <strong class="brand">RM</strong>
+      <a class="brand" href="#" aria-label="Ricardo Mejia home">
+        <img src="./assets/rm-logo-mark.png" alt="Ricardo Mejia logo">
+      </a>
 
       <!-- Desktop links -->
       <nav class="links" aria-label="Primary">
@@ -31,12 +33,11 @@
         <a class="btn" href="#experience">Experience</a>
         <a class="btn" href="#contact">Contact</a>
         <span class="spacer"></span>
-        <button class="btn" id="themeToggle">Web Theme</button>
-        <a class="btn primary" href="./assets/RicardoMejiaResumePorfolio.pdf" target="_blank" rel="noopener">Resume</a>
+        <a class="btn primary" href="./assets/RicardoMejiaResume2026.pdf" target="_blank" rel="noopener">Resume</a>
       </nav>
 
       <!-- Mobile hamburger -->
-      <button class="menu-toggle" id="menuOpen" aria-label="Open menu" aria-controls="menuPanel" aria-expanded="false">☰</button>
+      <button class="menu-toggle" id="menuOpen" aria-label="Open menu" aria-controls="menuPanel" aria-expanded="false">&#9776;</button>
     </div>
   </header>
 
@@ -45,73 +46,55 @@
 <aside class="menu-panel" id="menuPanel" aria-hidden="true">
   <div class="menu-header">
     <strong>Menu</strong>
-    <button class="menu-close" id="menuClose" aria-label="Close menu">✕</button>
+    <button class="menu-close" id="menuClose" aria-label="Close menu">&times;</button>
   </div>
 
-  <!-- Everything as one list (Contact → Resume → Theme) -->
+  <!-- Mobile navigation -->
   <nav class="menu-list" aria-label="Mobile">
     <a href="#projects" data-close>Projects</a>
     <a href="#skills" data-close>Skills</a>
     <a href="#experience" data-close>Experience</a>
-    <!-- <a href="#contact" data-close>Contact</a> --> <!-- This will be commented out if I proceed with a different screen for contact -->
-    <a href="./assets/RicardoMejiaResumePorfolio.pdf" target="_blank" rel="noopener" data-close>Resume</a>
-    <button type="button" class="menu-theme-btn" id="themeToggleMobile">Web Theme</button>
+    <a href="#contact" data-close>Contact</a>
+    <a href="./assets/RicardoMejiaResume2026.pdf" target="_blank" rel="noopener" data-close>Resume</a>
   </nav>
 </aside>
 
   <main class="container">
     <!-- Hero -->
     <section class="hero" aria-label="Intro">
-      <div>
-        <div class="badge">Your Location • <span class="mono" id="statusClock"></span></div>
-        <h1>Hi, I’m <span class="grad">Ricardo Mejia</span> — Mechatronics / Multidisciplinary Engineering Student at Texas A&M University.</h1>
-        <p class="muted" style="margin:10px 0 16px">Robotics, Embedded Systems, IoT projects, and Automation. I love applying theory to practical builds and clean UI for control dashboards.</p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap" class="no-print">
+      <div class="hero-copy">
+        <div class="eyebrow">Robotics / Controls / Manufacturing</div>
+        <h1>Mechatronics Engineer.</h1>
+        <p class="motto">Make it Happen</p>
+        <p class="lead">I am a Texas A&M mechatronics engineering student with a minor in Embedded Systems Integration, building robot cells, embedded controllers, PLC/HMI tools, and manufacturing improvements that have to work outside the classroom.</p>
+        <div class="hero-actions no-print">
           <a class="btn primary" href="#projects">View Projects</a>
           <a class="btn" id="contactLink" href="#contact">Contact</a>
         </div>
+        <p class="role-target">Looking for robotics, controls, automation, manufacturing engineering, or embedded systems work where I can commission hardware, debug the messy parts, and document what changed.</p>
       </div>
-      
-      <!-- commented out snapshots and modified styles .hero section -->
-<!--
-      <div class="card">
-        <h3>Snapshot</h3>
-        <div class="grid cols-2">
-          <div>
-            <div class="muted">Focus</div>
-            <div class="tag">Embedded (STM32)</div>
-            <div class="tag">Raspberry Pi & IoT</div>
-            <div class="tag">CAD & Prototyping</div>
-          </div>
-          <div>
-            <div class="muted">Languages/Tools</div>
-            <div class="tag">Python</div>
-            <div class="tag">C / C++</div>
-            <div class="tag">JavaScript</div>
-            <div class="tag">MATLAB</div>
-            <div class="tag">English</div>
-            <div class="tag">Spanish</div>
-          </div>
-        </div>
-        <p style="margin-top:10px" class="muted">Keyboard: <span class="kbd">G</span> or <span class="kbd">/</span> quick-nav • <span class="kbd">T</span> theme • <span class="kbd">?</span> help</p>
-      </div>
--->
     </section>
 
     <!-- Projects -->
     <section id="projects">
-      <h2>Projects</h2>
-      <p class="muted">Compact thumbnails • Click details for stack & links.</p>
-      <div class="no-print" style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0">
+      <div class="section-head">
+        <div>
+          <h2>Projects</h2>
+        </div>
+        <p class="muted">Controls, robotics, embedded systems, CAD, IoT, and selective software projects.</p>
+      </div>
+      <div class="filter-bar no-print">
         <button class="btn" data-filter="all">All</button>
         <button class="btn" data-filter="robotics">Robotics</button>
+        <button class="btn" data-filter="ros2">ROS 2</button>
+        <button class="btn" data-filter="manufacturing">Manufacturing</button>
         <button class="btn" data-filter="embedded">Embedded</button>
         <button class="btn" data-filter="iot">IoT</button>
         <button class="btn" data-filter="cad">CAD</button>
         <button class="btn" data-filter="development">Development</button>
         <button class="btn" data-filter="design">Design</button>
         <button class="btn" data-filter="team">Team</button>
-        <button class="btn" data-filter="analysis/simulation">Analysis/ Simulation</button>
+        <button class="btn" data-filter="analysis/simulation">Analysis / Simulation</button>
         <button class="btn" data-filter="web">Web</button>
       </div>
       <div id="projectGrid" class="grid cols-3"></div>
@@ -119,48 +102,134 @@
 
     <!-- Skills -->
     <section id="skills" style="margin-top:30px">
-      <h2>Skills</h2>
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Toolbox</span>
+          <h2>Skills</h2>
+        </div>
+        <p class="muted">Grouped for recruiter scan speed: controls, robots, firmware, factory systems, CAD, and analysis.</p>
+      </div>
       <div class="grid cols-3">
-        <div class="card">
-          <h3>Programming & Simulation</h3>
-          <p class="muted">
-            Python • C / C++ • JavaScript • MATLAB • Simulink • HTML • CSS • Git/GitHub • Data Analysis
-          </p>
+        <div class="card skill-card">
+          <h3>Controls & Simulation</h3>
+          <ul class="skill-list">
+            <li>PI / PID control</li>
+            <li>System identification</li>
+            <li>Encoder feedback</li>
+            <li>MATLAB / Simulink</li>
+            <li>PWM motor control</li>
+          </ul>
         </div>
 
-        <div class="card">
-          <h3>Embedded, Robotics & Autonomy</h3>
-          <p class="muted">
-            STM32 (HAL) • Timers & Interrupts • PWM/Servo Control • UART / I²C / SPI • Sensor Integration •
-            State Machines • Motor Control • Raspberry Pi & IoT • LiDAR Navigation (mapping/localization concepts)
-          </p>
+        <div class="card skill-card">
+          <h3>Robotics & Automation</h3>
+          <ul class="skill-list">
+            <li>Yaskawa Motoman</li>
+            <li>DX200 / XRC / YASNAC</li>
+            <li>Universal Robots</li>
+            <li>PLC / HMI programming</li>
+            <li>Robot cell commissioning</li>
+          </ul>
         </div>
 
-        <div class="card">
-          <h3>Design, Test & Engineering Tools</h3>
-          <p class="muted">
-            Autodesk/Onshape CAD • Parametric Design • DFM/DFA • 3D Printing • Laser Cutting • Multisim •
-            Oscilloscope & Debugging • Circuit Analysis • Technical Documentation • Excel
-          </p>
+        <div class="card skill-card">
+          <h3>Embedded Systems</h3>
+          <ul class="skill-list">
+            <li>C / C++ firmware</li>
+            <li>STM32 HAL / Arduino</li>
+            <li>FreeRTOS / ROS 2</li>
+            <li>UART / I2C / SPI</li>
+            <li>LoRa and sensor integration</li>
+          </ul>
+        </div>
+
+        <div class="card skill-card">
+          <h3>Manufacturing Engineering</h3>
+          <ul class="skill-list">
+            <li>Lean manufacturing</li>
+            <li>A3 / 5 Whys</li>
+            <li>Process improvement</li>
+            <li>Rework tracking tools</li>
+            <li>Cross-functional launch support</li>
+          </ul>
+        </div>
+
+        <div class="card skill-card">
+          <h3>CAD, Fabrication & Test</h3>
+          <ul class="skill-list">
+            <li>SolidWorks / Fusion 360</li>
+            <li>Autodesk Inventor / AutoCAD</li>
+            <li>3D printing / laser cutting</li>
+            <li>Oscilloscope debugging</li>
+            <li>Technical documentation</li>
+          </ul>
+        </div>
+
+        <div class="card skill-card">
+          <h3>Software & Data Tools</h3>
+          <ul class="skill-list">
+            <li>Python / JavaScript</li>
+            <li>HTML / CSS</li>
+            <li>Git / GitHub</li>
+            <li>Excel analysis</li>
+            <li>Web dashboards and utilities</li>
+          </ul>
         </div>
       </div>
     </section>
 
-
     <!-- Experience -->
     <section id="experience" style="margin-top:30px">
-      <h2>Experience</h2>
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Recent path</span>
+          <h2>Experience</h2>
+        </div>
+        <p class="muted">Work that connects factory-floor execution with engineering design.</p>
+      </div>
       <div class="card timeline">
-        <div class="tl-item"><div class="tl-title"><span class="tl-role">Mechatronics Engineering Student</span> • <span class="tl-org">Texas A&M University</span></div><div class="muted">May 2022 – Present • College Station, Texas</div></div>
-        <div class="tl-item"><div class="tl-title"><span class="tl-role">Manufacturing Engineer</span> • <span class="tl-org">Howmet Aerospace — Internship</span></div><div class="muted">May 2025 – Aug 2025 · 12 weeks • United States & Mexico • On-site</div></div>
-        <div class="tl-item"><div class="tl-title"><span class="tl-role">Leasing Agent (Community Assistant)</span> • <span class="tl-org">Asset Living — Part-time</span></div><div class="muted">Nov 2023 – Apr 2025 · 1 yr 6 mos • College Station, Texas • On-site</div></div>
-        <div class="tl-item"><div class="tl-title"><span class="tl-role">Automotive Sales</span> • <span class="tl-org">Cecil Atkission Ford Lincoln — Full-time</span></div><div class="muted">May 2022 – Aug 2022 · 4 mos • Del Rio, Texas • On-site</div></div>
+        <div class="tl-item">
+          <div class="tl-title"><span class="tl-role">Mechatronics Engineering Student</span> / <span class="tl-org">Texas A&M University</span></div>
+          <div class="muted">May 2022 - Dec 2026 / College Station, Texas</div>
+          <p class="tl-desc muted">Minor in Embedded Systems Integration. Regents' Scholar, first-generation student, SHPE member, and PBE past leadership focused on embedded systems, manufacturing, robotics, controls, and practical engineering builds.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-title"><span class="tl-role">Launch Engineering Intern</span> / <span class="tl-org">Howmet Aerospace</span></div>
+          <div class="muted">May 2026 - Aug 2026 / Del Rio, Texas / Acuna, Mexico / On-site</div>
+          <p class="tl-desc muted">Commissioned and programmed relocated Yaskawa Motoman robotic cells with DX200 and XRC/YASNAC controllers, designed a Delta PLC/HMI-controlled automated safety door, optimized an industrial heating cycle to 8 minutes, led cross-functional launch work, and engineered a mobile lifting system for a roughly 4,000-lb Donaldson Torit dust collector.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-title"><span class="tl-role">Embedded Systems & Electronics Developer</span> / <span class="tl-org">NASA VITAL Micro Buoy - Senior Capstone Project</span></div>
+          <div class="muted">Aug 2026 - Present / Texas A&M University</div>
+          <p class="tl-desc muted">Develop electronics, embedded firmware, sensor integration, LoRa communication, power electronics, battery storage, and solar-charging components for a modular 3D-printed micro buoy that collects environmental data in coastal and river environments.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-title"><span class="tl-role">Manufacturing Engineering Intern</span> / <span class="tl-org">Howmet Aerospace</span></div>
+          <div class="muted">May 2025 - Aug 2025 / Del Rio, Texas / Acuna, Mexico / On-site</div>
+          <p class="tl-desc muted">Analyzed workflows and rework processes, applied Lean Six Sigma tools including 5 Whys, A3 problem solving, and one-piece flow, and developed a real-time rework tracking tool for defect trends and data-driven decisions.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-title"><span class="tl-role">Leasing Agent (Community Assistant)</span> / <span class="tl-org">Asset Living - Part-time</span></div>
+          <div class="muted">Dec 2023 - May 2025 / College Station, Texas / On-site</div>
+          <p class="tl-desc muted">Led apartment tours, processed rental applications and lease agreements, and resolved resident concerns while maintaining strong service and communication standards.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-title"><span class="tl-role">Automotive Sales Consultant</span> / <span class="tl-org">Cecil Atkission Ford Lincoln - Full-time</span></div>
+          <div class="muted">Jun 2022 - Aug 2022 / Del Rio, Texas / On-site</div>
+          <p class="tl-desc muted">Helped customers compare vehicle features, negotiated sales, and exceeded targets through product knowledge and customer service.</p>
+        </div>
       </div>
     </section>
 
     <!-- Contact -->
     <section id="contact" style="margin-top:30px">
-      <h2>Contact</h2>
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Next step</span>
+          <h2>Contact</h2>
+        </div>
+        <p class="muted">Reach out for engineering roles, projects, or technical collaboration.</p>
+      </div>
       <div class="grid cols-2">
         <!-- IMPORTANT: action + method enable no-JS fallback -->
         <form class="card" id="contactForm"
@@ -201,26 +270,26 @@
             <a class="btn" href="https://www.linkedin.com/in/ricardo-mejia-a64929251/" target="_blank" rel="noreferrer">LinkedIn</a>
           </div>
           <h3>About Me</h3>
-          <p class="muted" style="margin:10px 0 16px">I love applying theory to real-world builds. Whether it’s a robot, an IoT system, or a sleek UI that makes control simple. My passions stretch beyond engineering into language learning, star gazing, and building data-driven tools. For me, every project is a chance to learn, experiment, and push boundaries. Whether that’s in CAD, programming, or building something that actually works.</p>
+          <p class="muted" style="margin:10px 0 16px">I like turning engineering theory into working systems, whether that is an industrial robot cell, an IoT controller, a manufacturing tool, a micro buoy, or a vehicle controls project. My interests span embedded systems, CAD, automation, language learning, stargazing, and data-driven tools.</p>
         </div>
       </div>
     </section>
 
 
     <footer>
-      <div class="container" style="text-align:center">© <span id="year"></span> Ricardo Mejia — All Rights Reserved</div>
+      <div class="container" style="text-align:center">&copy; <span id="year"></span> Ricardo Mejia - All Rights Reserved</div>
     </footer>
   </main>
 
   <!-- Project modal -->
   <dialog id="projectModal" aria-label="Project details">
-    <div class="modal-head"><strong id="modalTitle">Project</strong><button class="btn" id="modalClose" aria-label="Close">✕</button></div>
+    <div class="modal-head"><strong id="modalTitle">Project</strong><button class="btn" id="modalClose" aria-label="Close">&times;</button></div>
     <div class="modal-body" id="modalBody"></div>
   </dialog>
 
   <!-- Quick-Nav dialog -->
   <dialog id="quickNav" aria-label="Quick navigation">
-    <div class="modal-head"><strong>Go to…</strong><button class="btn" id="qclose">✕</button></div>
+    <div class="modal-head"><strong>Go to...</strong><button class="btn" id="qclose">&times;</button></div>
     <div class="modal-body">
       <input id="qsearch" class="btn" placeholder="Type: projects, skills, experience, contact" aria-label="Search sections" />
       <ul class="nav-list" id="qresults">
@@ -236,14 +305,13 @@
   <dialog id="helpModal" aria-label="Keyboard help">
     <div class="modal-head">
       <strong>Keyboard Shortcuts</strong>
-      <button class="btn" id="helpClose" aria-label="Close">✕</button>
+      <button class="btn" id="helpClose" aria-label="Close">&times;</button>
     </div>
     <div class="modal-body">
       <ul>
-        <li><span class="kbd">G</span> or <span class="kbd">/</span> — Open quick-nav</li>
-        <li><span class="kbd">T</span> — Toggle theme</li>
-        <li><span class="kbd">?</span> — Show this help</li>
-        <li><span class="kbd">Esc</span> — Close dialogs</li>
+        <li><span class="kbd">G</span> or <span class="kbd">/</span> - Open quick-nav</li>
+        <li><span class="kbd">?</span> - Show this help</li>
+        <li><span class="kbd">Esc</span> - Close dialogs</li>
       </ul>
     </div>
   </dialog>
@@ -252,10 +320,10 @@
   <dialog id="imgLightbox" aria-label="Image preview">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid color-mix(in srgb,var(--text) 10%, transparent)">
       <strong id="lightCaption">Preview</strong>
-      <button class="btn" id="lightClose" aria-label="Close">✕</button>
+      <button class="btn" id="lightClose" aria-label="Close">&times;</button>
     </div>
     <div style="padding:12px 14px">
-      <img id="lightImg" alt="" style="max-width:92vw;max-height:82vh;border-radius:12px;display:block;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,.35)">
+      <img id="lightImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Project preview" style="max-width:92vw;max-height:82vh;border-radius:12px;display:block;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,.35)">
     </div>
   </dialog>
 
@@ -263,17 +331,19 @@
   <script type="application/ld+json" id="jsonld"></script>
 
   <!-- Scripts: order matters (projects first, then app, then particles) -->
-  <script defer src="projects.js"></script>
+  <script defer src="projects.js?v=20260812g"></script>
   <script defer src="games.js"></script>
-  <script defer src="app.js"></script>
+  <script defer src="app.js?v=20260812h"></script>
   <script defer src="particles.js"></script>
 
 
 
-  <!-- Arrow Button for Mobil to Return Top -->
+  <!-- Arrow button for mobile return top -->
   <button id="backToTop">
     <img src="assets/arrow.png" alt="Back to top">
   </button>
 
 </body>
 </html>
+
+

@@ -7,10 +7,10 @@ Live Site: [https://ricardomejia.dev/](#)
 ---
 
 ## Features  
-- Animated red background with particle effects  
+- Light-only professional engineering portfolio design
+- Technical hero board focused on robotics, controls, capstone work, and launch engineering
 - Keyboard shortcuts for quick navigation  
   - `G` or `/` → Open quick navigation  
-  - `T` → Toggle theme (light/dark)  
   - `?` → Open keyboard shortcut help  
   - `Esc` → Close dialogs  
 - Responsive design with a mobile-friendly navigation menu  
@@ -30,7 +30,7 @@ Live Site: [https://ricardomejia.dev/](#)
 ---
 
 ## Sections  
-- Home – introduction with animated background  
+- Home – engineering profile and current technical focus  
 - Skills – technical abilities  
 - Experience – professional roles and internships  
 - Projects – selected engineering and software work  

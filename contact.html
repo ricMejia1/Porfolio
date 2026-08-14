@@ -12,7 +12,6 @@
   <main class="container" style="padding-top:28px">
     <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
       <a class="btn" href="index.html">← Back to Home</a>
-      <button class="btn" id="themeToggle">☾☀︎ Theme</button>
     </div>
 
     <section id="contact">
@@ -40,22 +39,15 @@
             <a class="btn" href="https://www.linkedin.com/in/ricardo-mejia-a64929251/" target="_blank" rel="noreferrer">LinkedIn</a>
           </div>
             <h3>About Me</h3>
-            <p class="muted" style="margin:10px 0 16px">I love applying theory to real-world builds. Whether it’s a robot, an IoT system, or a sleek UI that makes control simple. My passions stretch beyond engineering into language learning, star gazing, and even strategic gambling. For me, every project is a chance to learn, experiment, and push boundaries. Whether that’s in CAD, programming, or building something that actually works.</p>
+            <p class="muted" style="margin:10px 0 16px">I like turning engineering theory into working systems, whether that is an industrial robot cell, an IoT controller, a manufacturing tool, a micro buoy, or a vehicle controls project. My interests span embedded systems, CAD, automation, language learning, stargazing, and data-driven tools.</p>
         </div>
       </div>
     </section>
   </main>
 
   <script>
-    // Theme toggle that matches index.html
-    const toggleTheme = ()=>{
-      const root = document.documentElement;
-      const next = root.classList.toggle('light') ? 'light' : 'dark';
-      localStorage.setItem('theme', next);
-    };
-    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-    // Apply saved theme on load
-    if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light');
+    document.documentElement.classList.add('light');
+    localStorage.setItem('theme', 'light');
   </script>
 </body>
 </html>

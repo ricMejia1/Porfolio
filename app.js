@@ -1,14 +1,30 @@
-// ------- Utilities -------
+﻿// ------- Utilities -------
 const $  = (sel, root=document) => root.querySelector(sel);
 const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
 
 const state = {
-  theme: localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'),
   projects: window.PROJECTS || []
 };
 
-// Apply theme from saved state
-if (state.theme === 'light') document.documentElement.classList.add('light');
+const PROJECT_ORDER = [
+  'cruisecontrolcar',
+  'mxet400-mini-project-2',
+  'SCUTTLEROBOT',
+  'smartglow',
+  'capacitorcar',
+  'k2639',
+  'linetracker',
+  'frc4063',
+  'expandlet',
+  'petfeeder',
+  'gradecalculator',
+  'PBE',
+  'SOG',
+  'OPW'
+];
+
+document.documentElement.classList.add('light');
+localStorage.setItem('theme', 'light');
 
 // Clock (Local Date & Time with Timezone, auto-adapts)
 const clk = () => {
@@ -34,20 +50,22 @@ const clk = () => {
     .formatToParts(now);
   const tz = parts.find(p => p.type === 'timeZoneName')?.value || '';
 
-  // Update your element
-  $('#statusClock').textContent = `${date} ${time} ${tz}`;
+  const clockEl = $('#statusClock');
+  if (clockEl) clockEl.textContent = `${date} ${time} ${tz}`;
 };
 
-clk();
-setInterval(clk, 1000);
+if ($('#statusClock')) {
+  clk();
+  setInterval(clk, 1000);
+}
 
 // Projects render
-// Reusable fallback thumbnail (keeps it simple—no nested backticks)
+// Reusable fallback thumbnail.
 const IMG_FALLBACK = 'data:image/svg+xml,' + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225">' +
     '<rect width="100%" height="100%" fill="#12141a"/>' +
     '<text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" ' +
-    'fill="#999" font-family="Inter" font-size="16">Image not found</text>' +
+    'fill="#999" font-family="Inter" font-size="16">Project visual coming soon</text>' +
   '</svg>'
 );
 
@@ -57,82 +75,59 @@ const renderProjects = (filter = 'all') => {
   root.innerHTML = '';
 
   const all = Array.isArray(state.projects) ? state.projects : [];
-  const list = all.filter(p => filter === 'all' || (p.badges || []).includes(filter));
-
-  function buildButtonsRow(p) {
-  const out = [];
-  const addBtn = (html) => out.push(html);
-
-  const hasDetails = !!p.details;
-
-  if (Array.isArray(p.customButtons) && p.customButtons.length) {
-    // Prefer up to two custom buttons, then Details (if available) as the 3rd
-    const firstTwo = p.customButtons.slice(0, 2);
-
-    firstTwo.forEach(btn => {
-      // 1) Action button (launch in-page game)
-      if (btn && btn.action === 'game') {
-        const which = btn.game || 'menu';
-        addBtn(`<button class="btn primary play-game" data-game="${which}">${btn.label || 'Play'}</button>`);
-        return;
-      }
-
-      // 2) Normal link button
-      const ok = btn && btn.url && btn.url !== '#';
-      addBtn(ok
-        ? `<a class="btn" href="${btn.url}" target="_blank" rel="noreferrer">${btn.label || 'Link'}</a>`
-        : `<span class="btn" aria-disabled="true">${(btn && btn.label) || 'Link'}</span>`
-      );
+  const list = all
+    .filter(p => filter === 'all' || (p.badges || []).includes(filter))
+    .sort((a, b) => {
+      const aRank = PROJECT_ORDER.includes(a.id) ? PROJECT_ORDER.indexOf(a.id) : PROJECT_ORDER.length;
+      const bRank = PROJECT_ORDER.includes(b.id) ? PROJECT_ORDER.indexOf(b.id) : PROJECT_ORDER.length;
+      return aRank - bRank;
     });
 
-    if (hasDetails) {
-      addBtn(`<button class="btn primary" data-open="${p.id}">Details</button>`);
-    } else if (p.customButtons.length >= 3) {
-      // If no details, allow a 3rd custom
-      const b3 = p.customButtons[2];
-      if (b3?.action === 'game') {
-        const which = b3.game || 'menu';
-        addBtn(`<button class="btn primary play-game" data-game="${which}">${b3.label || 'Play'}</button>`);
-      } else {
-        const ok3 = b3 && b3.url && b3.url !== '#';
-        addBtn(ok3
-          ? `<a class="btn" href="${b3.url}" target="_blank" rel="noreferrer">${b3.label || 'Link'}</a>`
-          : `<span class="btn" aria-disabled="true">${(b3 && b3.label) || 'Link'}</span>`
-        );
+  function buildButtonsRow(p) {
+    const out = [];
+    const addBtn = (html) => out.push(html);
+    const hasDetails = !!p.details;
+
+    function renderCustomButton(btn) {
+      if (btn && btn.action === 'game') {
+        const which = btn.game || 'menu';
+        return `<button class="btn primary play-game" data-game="${which}">${btn.label || 'Play'}</button>`;
       }
+
+      const ok = btn && btn.url && btn.url !== '#';
+      return ok
+        ? `<a class="btn" href="${btn.url}" target="_blank" rel="noreferrer">${btn.label || 'Link'}</a>`
+        : `<span class="btn" aria-disabled="true">${(btn && btn.label) || 'Link'}</span>`;
     }
-  } else {
-    // Default: Live / Code / Details
-    const liveOk = p.links && p.links.live && p.links.live !== '#';
-    const codeOk = p.links && p.links.code && p.links.code !== '#';
 
-    addBtn(liveOk
-      ? `<a class="btn" href="${p.links.live}" target="_blank" rel="noreferrer">Live</a>`
-      : `<span class="btn" aria-disabled="true">Live</span>`
-    );
-    addBtn(codeOk
-      ? `<a class="btn" href="${p.links.code}" target="_blank" rel="noreferrer">Code</a>`
-      : `<span class="btn" aria-disabled="true">Code</span>`
-    );
-    addBtn(`<button class="btn primary" data-open="${p.id}">Details</button>`);
+    if (Array.isArray(p.customButtons) && p.customButtons.length) {
+      p.customButtons.forEach(btn => addBtn(renderCustomButton(btn)));
+      if (hasDetails) addBtn(`<button class="btn primary" data-open="${p.id}">Details</button>`);
+    } else {
+      const liveOk = p.links && p.links.live && p.links.live !== '#';
+      const codeOk = p.links && p.links.code && p.links.code !== '#';
+
+      if (liveOk) addBtn(`<a class="btn" href="${p.links.live}" target="_blank" rel="noreferrer">Live</a>`);
+      if (codeOk) addBtn(`<a class="btn" href="${p.links.code}" target="_blank" rel="noreferrer">Code</a>`);
+      if (hasDetails) addBtn(`<button class="btn primary" data-open="${p.id}">Details</button>`);
+    }
+
+    return out.join('');
   }
-
-  // pad to exactly 3 columns so all cards align
-  while (out.length < 3) out.push(`<span class="btn placeholder" aria-hidden="true">–</span>`);
-  return out.join('');
-}
 
 
   for (let i = 0; i < list.length; i++) {
     const p = list[i];
     const card = document.createElement('article');
-    card.className = 'card';
+    card.className = 'card project-card';
 
     const onerr = "this.onerror=null; this.src='" + IMG_FALLBACK + "'";
 
     card.innerHTML =
-      '<img loading="lazy" src="' + (p.img || '') + '" alt="' + (p.title || 'Project') +
+      '<div class="thumb-frame ' + (p.imageFit === 'contain' ? 'fit-contain' : 'fit-cover') + '">' +
+      '<img loading="lazy" src="' + (p.img || IMG_FALLBACK) + '" alt="' + (p.title || 'Project') +
       ' cover" class="thumb" onerror="' + onerr + '">' +
+      '</div>' +
       '<h3 style="margin-top:10px">' + (p.title || '') + '</h3>' +
       '<p class="muted">' + (p.summary || '') + '</p>' +
       '<div>' + ((p.badges || []).map(function(b){ return "<span class=\'tag\'>" + b + "</span>"; }).join('')) + '</div>' +
@@ -198,7 +193,7 @@ document.addEventListener('click', (e) => {
     if (trap) { status.textContent = 'Spam blocked.'; return; }
 
     try {
-      btn.disabled = true; btn.textContent = 'Sending…';
+      btn.disabled = true; btn.textContent = 'Sending...';
 
       // Send as multipart/form-data (preferred by Formspree)
       const res = await fetch(ENDPOINT, {
@@ -211,7 +206,7 @@ document.addEventListener('click', (e) => {
         status.textContent = 'Thanks! Your message was sent.';
         form.reset();
       } else {
-        // Try to surface Formspree’s error
+        // Try to surface Formspree's error
         let err = 'Submission failed. Please try again or email me directly.';
         try {
           const data = await res.json();
@@ -220,8 +215,8 @@ document.addEventListener('click', (e) => {
         status.textContent = err;
       }
     } catch (err) {
-      // Network problem: fall back to the form’s native submit (no-JS path)
-      status.textContent = 'Network issue detected. Trying fallback…';
+      // Network problem: fall back to the form's native submit (no-JS path)
+      status.textContent = 'Network issue detected. Trying fallback...';
       form.submit(); // uses the action/method attributes
     } finally {
       btn.disabled = false; btn.textContent = 'Send';
@@ -229,16 +224,6 @@ document.addEventListener('click', (e) => {
   });
 })();
 
-
-// Theme toggle (button + keyboard) — sync desktop & mobile buttons
-const toggleTheme = ()=>{
-  const root = document.documentElement;
-  const light = root.classList.toggle('light');
-  state.theme = light ? 'light':'dark';
-  localStorage.setItem('theme', state.theme);
-};
-$('#themeToggle').addEventListener('click', toggleTheme);
-$('#themeToggleMobile').addEventListener('click', toggleTheme);
 
 // Mobile menu controls
 const bodyEl = document.body;
@@ -282,7 +267,6 @@ document.addEventListener('keydown', (e)=>{
   if (k==='?' || (e.shiftKey && k==='/')) { e.preventDefault(); $('#helpModal')?.showModal(); return; }
   if (k==='Escape') { $('#helpModal')?.close(); $('#quickNav')?.close(); return; }
   if (!typing && (k.toLowerCase()==='g' || k==='/')) { e.preventDefault(); openQuickNav(); return; }
-  if (!typing && k.toLowerCase()==='t') { toggleTheme(); return; }
 });
 
 // Year
@@ -292,18 +276,10 @@ $('#year').textContent = new Date().getFullYear();
 $('#jsonld').textContent = JSON.stringify({
   "@context":"https://schema.org","@type":"Person",name:"Ricardo Mejia",jobTitle:"Engineering Student",url: location.href,
   sameAs:["https://github.com/ricMejia1","https://www.linkedin.com/in/ricardo-mejia-a64929251/"],
-  knowsAbout:["STM32","Embedded","IoT","CAD","Robotics"],
+  knowsAbout:["ROS 2","Universal Robots UR3e","Yaskawa Motoman","PLC/HMI","Manufacturing Automation","Controls","Embedded Systems","STM32","IoT","CAD"],
   affiliation:{"@type":"CollegeOrUniversity","name":"Texas A&M University"}
 });
 
-// Move Resume under Contact inside the mobile menu
-document.addEventListener("DOMContentLoaded", () => {
-  const contactLink = document.querySelector(".menu-list a[href='#contact']");
-  const resumeLink = document.querySelector(".menu-list a[href='#resume']");
-  if (contactLink && resumeLink) {
-    contactLink.insertAdjacentElement("afterend", resumeLink);
-  }
-});
 
 // ------- Image Lightbox (works for all project thumbnails) -------
 (function(){
@@ -340,7 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
   dlg.addEventListener('cancel', (e) => { e.preventDefault(); dlg.close(); });
   })();
 
-  // Mobil button Arrow, return top
+  // Mobile button arrow, return top
   const backToTop = document.getElementById('backToTop');
 
   window.addEventListener('scroll', () => {
@@ -355,49 +331,4 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-const form = document.getElementById('contactForm');
-const btn  = document.getElementById('contactSubmit');
 
-if (form && btn) {
-  form.addEventListener('submit', () => {
-    btn.disabled = true;           // block double clicks
-    btn.textContent = 'Sending…';
-  });
-}
-
-//Hardcode for thanks.html screen on contact send button
-if (form) {
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault(); // stop default page reload
-    const data = new FormData(form);
-
-    try {
-      await fetch(form.action, {
-        method: form.method,
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      });
-
-      // ✅ Always go to thank you page after submit
-      window.location.href = "thanks.html"; 
-
-    } catch (err) {
-      alert("Something went wrong, please email me directly!");
-    }
-  });
-}
-
-
-
-// Button split for Mobile and Desktop view for contact me
-(function(){
-  const link = document.getElementById('contactLink');
-  if (!link) return;
-
-  const mq = matchMedia('(max-width: 860px)');
-  const setHref = () => {
-    link.setAttribute('href', mq.matches ? 'contact.html' : '#contact');
-  };
-  mq.addEventListener?.('change', setHref);
-  setHref();
-})();

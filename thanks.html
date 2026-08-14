@@ -6,15 +6,9 @@
   <title>Thank You — Ricardo Mejia</title>
   <meta name="description" content="Thanks for your message. I’ll get back to you shortly." />
 
-  <!-- Apply saved theme ASAP to avoid flash -->
   <script>
-    (function () {
-      try {
-        if (localStorage.getItem('theme') === 'light') {
-          document.documentElement.classList.add('light');
-        }
-      } catch (e) {}
-    })();
+    document.documentElement.classList.add('light');
+    try { localStorage.setItem('theme', 'light'); } catch (e) {}
   </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet">
@@ -26,16 +20,14 @@
 
   <header>
     <div class="container topbar">
-      <strong class="brand">RM</strong>
+      <strong class="brand"><span>RM</span><small>Mechatronics</small></strong>
       <nav class="links" aria-label="Primary">
         <a class="btn" href="index.html#projects">Projects</a>
         <a class="btn" href="index.html#skills">Skills</a>
         <a class="btn" href="index.html#experience">Experience</a>
         <a class="btn" href="index.html#contact">Contact</a>
         <span class="spacer"></span>
-        <!-- Optional theme toggle (keeps parity with home) -->
-        <button class="btn" id="themeToggle">☾☀︎ Theme</button>
-        <a class="btn primary" href="./assets/RicardoMejiaResumePorfolio.pdf" target="_blank" rel="noopener">⬇️ Resume</a>
+        <a class="btn primary" href="./assets/RicardoMejiaResume2026.pdf" target="_blank" rel="noopener">⬇️ Resume</a>
       </nav>
     </div>
   </header>
@@ -66,13 +58,7 @@
     // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Theme toggle (mirrors your main site behavior)
-    const toggleTheme = () => {
-      const root = document.documentElement;
-      const light = root.classList.toggle('light');
-      try { localStorage.setItem('theme', light ? 'light' : 'dark'); } catch(e){}
-    };
-    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+    document.documentElement.classList.add('light');
   </script>
 </body>
 </html>
